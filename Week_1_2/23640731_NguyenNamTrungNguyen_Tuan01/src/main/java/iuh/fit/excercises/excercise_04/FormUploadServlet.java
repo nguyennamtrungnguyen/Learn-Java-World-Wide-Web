@@ -8,7 +8,22 @@ import jakarta.servlet.http.*;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
-
+//note
+//    1. JSP
+//      ↓
+//    2. User gửi request
+//      ↓
+//    3. Servlet nhận request
+//      ↓
+//    4. Servlet gọi Service/Repository
+//      ↓
+//    5. Database
+//      ↓
+//    6. Servlet lấy dữ liệu
+//      ↓
+//    7. Forward về JSP
+//      ↓
+//    8. JSP hiển thị
 @WebServlet("/processFormUpload")
 @MultipartConfig(
         fileSizeThreshold = 1024 * 1024,
