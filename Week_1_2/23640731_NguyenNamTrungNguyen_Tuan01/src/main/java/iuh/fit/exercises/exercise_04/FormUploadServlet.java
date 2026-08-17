@@ -1,4 +1,4 @@
-package iuh.fit.excercises.excercise_04;
+package iuh.fit.exercises.exercise_04;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.MultipartConfig;
