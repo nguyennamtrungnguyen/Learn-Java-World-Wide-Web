@@ -8,9 +8,10 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>Title</title>
+    <title>Secret</title>
 </head>
 <body>
-<h1>Bí Mật Bên Trong Này</h1>
+    <h2>Đây là nội dung bí mật chỉ user đã login mới thấy!</h2>
+    <a href="${pageContext.request.contextPath}/Home.jsp">Về trang chủ</a>
 </body>
 </html>

@@ -17,7 +17,7 @@
 <body class="p-4">
     <h3>Trang chủ</h3>
     <a class="btn btn-primary me-2" href="LoginPage.jsp">Đến login</a>
-    <a class="btn btn-secondary" href="secure/SecurePage.jsp">Đến secret</a>
+    <a class="btn btn-secondary" href="secure/secret.jsp">Đến secret</a>
     <p>${error}</p>
     <link href="<%= ctx %>/resources/bootstrap.bundle.min.js">
 </body>

@@ -24,6 +24,13 @@ import java.io.PrintWriter;
 //    7. Forward về JSP
 //      ↓
 //    8. JSP hiển thị
+/**
+ * @author Nguyễn Nam Trung Nguyên
+ * @version 1.0
+ * @MSSV 23640731
+ * @Class DHKTPM19ATT
+ * @since 8/18/2026
+ */
 @WebServlet("/processFormUpload")
 @MultipartConfig(
         fileSizeThreshold = 1024 * 1024,
@@ -49,7 +56,7 @@ public class FormUploadServlet extends HttpServlet {
         Part filePart = req.getPart("profilePic");
         String fileName = filePart.getSubmittedFileName();
 
-        // 👉 lưu vào webapp/uploads để có thể truy cập bằng URL
+        // lưu vào webapp/uploads để có thể truy cập bằng URL
         String uploadPath = req.getServletContext().getRealPath("/uploads");
         File uploadDir = new File(uploadPath);
         if (!uploadDir.exists()) uploadDir.mkdir();
