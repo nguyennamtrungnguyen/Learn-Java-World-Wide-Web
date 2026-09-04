@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="vi">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Jakarta EE 11 — Demo Chương 2</title>
+    <link rel="stylesheet" href="assets/styles.css">
+</head>
+<body>
+<header class="hero">
+    <p class="eyebrow">LẬP TRÌNH WWW (JAVA) · CHƯƠNG 2</p>
+    <h1>Trung tâm thông báo lớp học</h1>
+    <p>Năm demo độc lập, một luồng tích hợp: Servlet · Async · CDI · REST · WebSocket.</p>
+</header>
+
+<main>
+    <section class="demo-card">
+        <div><span class="number">01</span><h2>Servlet &amp; sharing information</h2></div>
+        <p>Gọi nhiều lần để so sánh instance servlet, request, session và application state.</p>
+        <button id="run-servlet">Gọi Servlet</button>
+        <pre id="servlet-output">Chưa chạy.</pre>
+    </section>
+
+    <section class="demo-card">
+        <div><span class="number">02</span><h2>Asynchronous Processing</h2></div>
+        <p>Mô phỏng I/O chậm bằng thread do container quản lý.</p>
+        <label>Độ trễ (ms) <input id="delay" type="number" min="0" max="4500" value="1500"></label>
+        <button id="run-async">Chạy bất đồng bộ</button>
+        <pre id="async-output">Chưa chạy.</pre>
+    </section>
+
+    <section class="demo-card">
+        <div><span class="number">03</span><h2>CDI</h2></div>
+        <p>Servlet nhận một dịch vụ <code>@ApplicationScoped</code> và metadata <code>@RequestScoped</code>.</p>
+        <label>Tên <input id="student-name" value="Lan"></label>
+        <button id="run-cdi">Gọi dịch vụ CDI</button>
+        <pre id="cdi-output">Chưa chạy.</pre>
+    </section>
+
+    <section class="demo-card wide">
+        <div><span class="number">04</span><h2>REST API</h2></div>
+        <div class="actions">
+            <button id="list-announcements" class="secondary">GET danh sách</button>
+            <button id="invalid-announcement" class="secondary">POST dữ liệu sai</button>
+        </div>
+        <form id="announcement-form">
+            <label>Tiêu đề <input id="title" maxlength="80" value="Đổi phòng học" required></label>
+            <label>Nội dung <textarea id="content" maxlength="500" required>Buổi học chuyển sang phòng H3.1.</textarea></label>
+            <button type="submit">POST thông báo</button>
+        </form>
+        <pre id="rest-output">Chưa chạy.</pre>
+    </section>
+
+    <section class="demo-card wide">
+        <div><span class="number">05</span><h2>WebSocket</h2></div>
+        <p>Mở trang này ở hai cửa sổ. Tạo thông báo bằng REST; cả hai cửa sổ nhận sự kiện ngay.</p>
+        <div class="status-row"><span id="ws-indicator" class="dot"></span><span id="ws-status">Đang kết nối…</span></div>
+        <div class="actions">
+            <input id="ws-message" value="ping từ trình duyệt">
+            <button id="send-ws" type="button" class="secondary">Gửi echo</button>
+        </div>
+        <pre id="ws-output">Chưa có sự kiện.</pre>
+    </section>
+</main>
+
+<footer>Jakarta EE Web Profile 11 · Java 21 · Maven WAR · Dữ liệu demo lưu trong bộ nhớ</footer>
+<script src="assets/app.js"></script>
+</body>
+</html>
+

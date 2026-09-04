@@ -12,6 +12,6 @@
 </head>
     <body>
         <h2>Đây là nội dung bí mật chỉ user đã login mới thấy!</h2>
-        <a href="${pageContext.request.contextPath}/Home.jsp">Về trang chủ</a>
+        <a href="${pageContext.request.contextPath}/exercise_05/Home.jsp">Về trang chủ</a>
     </body>
 </html>

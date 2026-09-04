@@ -9,7 +9,7 @@
     <meta name="viewport"
           content="width=device-width, initial-scale=1.0">
 
-    <title>Exercise 04</title>
+    <title>Exercise Of Week 1</title>
 
     <!-- Bootstrap -->
     <link
@@ -25,10 +25,26 @@
             Bài Tập Thực Hành Tuần 1
         </h1>
         <a href="exercise_04/FormUploadServlet.jsp"
+           class="text-decoration-none mb-4">
+            <button type="button"
+                    class="btn btn-primary px-4 py-3">
+                Bài 4 - Register Form Page
+            </button>
+        </a>
+
+        <a href="exercise_05/Home.jsp"
            class="text-decoration-none">
             <button type="button"
                     class="btn btn-primary px-4 py-3">
-                Bài 4 - Register Form
+                Bài 5 - Login Form Page
+            </button>
+        </a>
+
+        <a href="exercise_06/UploadPage.jsp"
+           class="text-decoration-none">
+            <button type="button"
+                    class="btn btn-primary px-4 py-3">
+                Bài 6 - Upload Page
             </button>
         </a>
     </div>

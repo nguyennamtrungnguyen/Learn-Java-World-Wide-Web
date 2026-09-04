@@ -21,27 +21,33 @@ public class LoginServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
-        System.out.println("hi");
-        req.getRequestDispatcher("/LoginPage.jsp").forward(req, resp);
+
+        req.getRequestDispatcher("/exercise_05/LoginPage.jsp")
+                .forward(req, resp);
     }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
-        resp.setContentType("text/html");
-
 
         String username = req.getParameter("username");
         String password = req.getParameter("password");
 
-        boolean ok = "admin".equalsIgnoreCase(username) && "123".equalsIgnoreCase(password);
+        boolean ok = "admin".equalsIgnoreCase(username)
+                && "123".equals(password);
+
         if (ok) {
             req.getSession().setAttribute("username", username);
-            resp.sendRedirect(req.getContextPath() + "/section5/Home.jsp");
+
+            resp.sendRedirect(
+                    req.getContextPath() + "/exercise_05/Home.jsp"
+            );
             return;
         }
 
         req.setAttribute("error", "Mật khẩu hoặc tài khoản không hợp lệ");
-        req.getRequestDispatcher("/section5/LoginPage.jsp").forward(req, resp);
+
+        req.getRequestDispatcher("/exercise_05/LoginPage.jsp")
+                .forward(req, resp);
     }
 }

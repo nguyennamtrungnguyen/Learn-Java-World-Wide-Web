@@ -15,7 +15,7 @@ import java.io.IOException;
  * @since 8/18/2026
  */
 
-@WebFilter("/section5/secure/*")
+@WebFilter("/exercise_05/secure/*")
 public class AuthFilter implements Filter {
 
     @Override
@@ -33,6 +33,6 @@ public class AuthFilter implements Filter {
         boolean isLogged = session != null && session.getAttribute("username") != null;
 
         if (isLogged) filterChain.doFilter(servletRequest, servletResponse);
-        else response.sendRedirect(request.getContextPath() + "/section5/LoginPage.jsp");
+        else response.sendRedirect(request.getContextPath() + "/exercise_05/LoginPage.jsp");
     }
 }

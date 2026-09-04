@@ -1,5 +1,6 @@
 package iuh.fit.midterm01.controller;
 
+import iuh.fit.midterm01.entity.Department;
 import iuh.fit.midterm01.service.DepartmentService;
 import iuh.fit.midterm01.service.impl.DepartmentServiceImpl;
 import jakarta.servlet.ServletConfig;
@@ -57,8 +58,18 @@ public class DepartmentController extends HttpServlet {
                     departmentService.delete(id);
                     resp.sendRedirect("departments");// Cập nhập lại trang chủ
                 }
+
+                case "ADD" -> {
+                    String name = req.getParameter("name");
+
+                    Department department = new Department(null, name, null);
+
+                    departmentService.save(department);
+                }
             }
         }
     }
+
+
 
 }

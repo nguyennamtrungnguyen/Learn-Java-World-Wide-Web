@@ -14,12 +14,15 @@
         <title>Home</title>
         <link href="<%= ctx %>/resources/bootstrap.min.css" rel="stylesheet">
     </head>
-    <body class="p-4">
-        <h3>Home</h3>
+    <body class="container d-flex align-items-center justify-content-center bg-success">
+
+    <div class="">
+        <h3 class="text-center text-white">Home</h3>
         <a class="btn btn-primary me-2" href="LoginPage.jsp">Đến Login</a>
-        <a class="btn btn-secondary" href="secure/SecurePage.jsp">Đến Secret</a>
+        <a class="btn btn-secondary" href="secure/Secret.jsp">Đến Secret</a>
         <p>${error}</p>
 
         <script src="<%= ctx %>/resources/bootstrap.bundle.min.js"></script>
+    </div>
     </body>
 </html>
