@@ -20,7 +20,7 @@ public class ActiveUserListener implements ServletContextListener, HttpSessionLi
         sce.getServletContext().setAttribute(ACTIVE_USERS_ATTRIBUTE,
                 activeSessions);
     }
-    
+
     @Override
     public void contextDestroyed(ServletContextEvent sce) {
         // Dọn dẹp nếu cần khi server tắt

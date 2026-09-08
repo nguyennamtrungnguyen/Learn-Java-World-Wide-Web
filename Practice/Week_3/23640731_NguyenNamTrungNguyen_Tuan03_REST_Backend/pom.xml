@@ -10,7 +10,7 @@
     <artifactId>backend</artifactId>
     <version>1.0-SNAPSHOT</version>
 
-    <name>23640731_NguyenNamTrungNguyen_Tuan03_REST</name>
+    <name>23640731_NguyenNamTrungNguyen_Tuan03_REST_Backend</name>
 
     <packaging>war</packaging>
 
