@@ -27,6 +27,8 @@ public class UserResource {
         return a + b;
     }
 
+
+
     // @GET - Lấy danh sách TẤT CẢ User
     @GET// Đường dẫn mặc định của API sẽ là /user
     @Produces(MediaType.APPLICATION_JSON) // Khai báo dữ liệu trả về là JSON
