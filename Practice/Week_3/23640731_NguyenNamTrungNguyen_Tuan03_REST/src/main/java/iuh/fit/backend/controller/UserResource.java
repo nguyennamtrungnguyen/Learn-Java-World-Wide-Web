@@ -14,7 +14,7 @@ public class UserResource {
     @Path("/view")
     @Produces(MediaType.TEXT_PLAIN)
     public String viewUser() {
-        return "Hoang Minh";
+        return "Nguyen Nam Trung Nguyen - 23640731";
     }
 
     @GET

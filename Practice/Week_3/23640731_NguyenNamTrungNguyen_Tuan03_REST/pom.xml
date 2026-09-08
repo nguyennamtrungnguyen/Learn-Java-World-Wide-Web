@@ -1,75 +1,127 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
+         https://maven.apache.org/xsd/maven-4.0.0.xsd">
+
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>iuh.fit</groupId>
     <artifactId>backend</artifactId>
     <version>1.0-SNAPSHOT</version>
+
     <name>23640731_NguyenNamTrungNguyen_Tuan03_REST</name>
+
     <packaging>war</packaging>
 
+
+    <!-- ========================= -->
+    <!-- PROPERTIES -->
+    <!-- ========================= -->
+
     <properties>
+
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <maven.compiler.target>11</maven.compiler.target>
-        <maven.compiler.source>11</maven.compiler.source>
+
+        <!-- Java -->
+        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.target>17</maven.compiler.target>
+
+        <!-- Jersey -->
+        <jersey.version>3.1.12</jersey.version>
+
+        <!-- JUnit -->
         <junit.version>5.9.2</junit.version>
+
     </properties>
 
+
+    <!-- ========================= -->
+    <!-- DEPENDENCIES -->
+    <!-- ========================= -->
+
     <dependencies>
+
+        <!-- Jakarta Servlet API -->
+        <!-- Tomcat 10.1 = Servlet 6.0 -->
         <dependency>
             <groupId>jakarta.servlet</groupId>
             <artifactId>jakarta.servlet-api</artifactId>
-            <version>5.0.0</version>
+            <version>6.0.0</version>
             <scope>provided</scope>
         </dependency>
+
+
+        <!-- Jersey Servlet -->
         <dependency>
             <groupId>org.glassfish.jersey.containers</groupId>
             <artifactId>jersey-container-servlet</artifactId>
-            <version>3.0.4</version>
+            <version>${jersey.version}</version>
         </dependency>
+
+
+        <!-- Jersey Injection -->
+        <!-- QUAN TRỌNG: sửa lỗi InjectionManagerFactory not found -->
+        <dependency>
+            <groupId>org.glassfish.jersey.inject</groupId>
+            <artifactId>jersey-hk2</artifactId>
+            <version>${jersey.version}</version>
+        </dependency>
+
+
+        <!-- JSON support -->
         <dependency>
             <groupId>org.glassfish.jersey.media</groupId>
             <artifactId>jersey-media-json-jackson</artifactId>
-            <version>3.0.4</version>
+            <version>${jersey.version}</version>
         </dependency>
-        <dependency>
-            <groupId>org.glassfish.jersey.inject</groupId>
-            <artifactId>jersey-cdi2-se</artifactId>
-            <version>3.0.4</version>
-        </dependency>
+
+
+        <!-- Jersey Client -->
         <dependency>
             <groupId>org.glassfish.jersey.core</groupId>
             <artifactId>jersey-client</artifactId>
-            <version>3.0.4</version>
+            <version>${jersey.version}</version>
         </dependency>
-        <dependency>
-            <groupId>org.jboss.weld.se</groupId>
-            <artifactId>weld-se-core</artifactId>
-            <version>4.0.3.Final</version>
-        </dependency>
+
+
+        <!-- ========================= -->
+        <!-- JUNIT -->
+        <!-- ========================= -->
+
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-api</artifactId>
             <version>${junit.version}</version>
             <scope>test</scope>
         </dependency>
+
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-engine</artifactId>
             <version>${junit.version}</version>
             <scope>test</scope>
         </dependency>
+
     </dependencies>
 
+
+    <!-- ========================= -->
+    <!-- BUILD -->
+    <!-- ========================= -->
+
     <build>
+
         <plugins>
+
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-war-plugin</artifactId>
-                <version>3.3.2</version>
+                <version>3.4.0</version>
             </plugin>
+
         </plugins>
+
     </build>
+
 </project>
