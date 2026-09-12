@@ -1,0 +1,9 @@
+<Context>
+    <Resource name="jdbc/employeedb"
+              auth="Container"
+              type="javax.sql.DataSource"
+              username="root"
+              password="sapassword"
+              driverClassName="org.mariadb.jdbc.Driver"
+              url="jdbc:mariadb://localhost:3306/employeedb"/>
+</Context>
