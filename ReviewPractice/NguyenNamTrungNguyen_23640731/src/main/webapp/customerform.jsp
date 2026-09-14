@@ -12,13 +12,26 @@
     <style>
         body {
             font-family: Arial, sans-serif;
+            width: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+
+        }
+
+        .container {
+            width: 600px;
+            border: 1px solid black;
+        }
+
+        h1 {
+            text-align: center;
         }
         .customerform{
             display: flex;
             flex-direction: column;
             width: 500px;
-            margin: 50px;
-            border: 1px solid black;
             padding: 20px;
         }
 
@@ -47,7 +60,7 @@
     </style>
 </head>
 <body>
-    <div>
+    <div class="container">
         <h1>Form Thêm Khách Hàng</h1>
 
         <form class="customerform" action="${pageContext.request.contextPath}/customers" method="POST">
