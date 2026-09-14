@@ -63,9 +63,12 @@
     <div class="container">
         <h1>Form Thêm Khách Hàng</h1>
 
-        <form class="customerform" action="${pageContext.request.contextPath}/customers" method="POST">
+        <form class="customerform" action="${pageContext.request.contextPath}/customers" method="POST" enctype="multipart/form-data">
             <label>Mã khách hàng</label>
             <input type="text" name="id" disabled>
+
+            <label>Avatar:</label>
+            <input type="file" name="avatar" accept="image/*">
 
             <label>Tên khách hàng</label>
             <input type="text" name="name" required>
@@ -80,6 +83,20 @@
                 <option value="Đà Nẵng">Đà Nẵng</option>
                 <option value="Đăk Lăk">Đăk Lăk</option>
             </select>
+
+            <label>Sở thích:</label>
+
+            <input type="checkbox" name="hobbies" value="Đọc sách">
+            <label>Đọc sách</label>
+
+            <input type="checkbox" name="hobbies" value="Du lịch">
+            <label>Du lịch</label>
+
+            <input type="checkbox" name="hobbies" value="Thể thao">
+            <label>Thể thao</label>
+
+            <input type="checkbox" name="hobbies" value="Âm nhạc">
+            <label>Âm nhạc</label>
 
             <button type="submit">Thêm Khách Hàng</button>
         </form>

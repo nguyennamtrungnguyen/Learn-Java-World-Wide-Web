@@ -1,9 +1,12 @@
 package iuh.fit.nguyennamtrungnguyen_23640731.model;
 
+import jakarta.servlet.http.Part;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import java.util.List;
 
 /**
  * @author Nguyễn Nam Trung Nguyên
@@ -20,7 +23,9 @@ import lombok.Setter;
 public class Customer {
 
     private int id;
+    private String avatar;
     private String name;
     private String email;
     private String address;
+    private String[] hobbies;
 }

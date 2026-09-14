@@ -9,7 +9,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>Customer</title>
+    <title>Customer List</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -60,9 +60,11 @@
             <thead>
             <tr>
                 <th>Mã Khách Hàng</th>
+                <th>Avatar</th>
                 <th>Tên Khách Hàng</th>
                 <th>Email</th>
                 <th>Địa Chỉ</th>
+                <th>Sở Thích</th>
             </tr>
             </thead>
 
@@ -70,9 +72,17 @@
                 <c:forEach var="customer" items="${customers}">
                     <tr>
                         <td>${customer.id}</td>
+                        <td><img
+                                src="${pageContext.request.contextPath}/uploads/${customer.avatar}"
+                                width="80"
+                                height="80"
+                                alt="Avatar"></td>
                         <td>${customer.name}</td>
                         <td>${customer.email}</td>
                         <td>${customer.address}</td>
+                        <td><c:forEach var="hobby" items="${customer.hobbies}">
+                            ${hobby}<br>
+                        </c:forEach></td>
                     </tr>
                 </c:forEach>
             </tbody>
