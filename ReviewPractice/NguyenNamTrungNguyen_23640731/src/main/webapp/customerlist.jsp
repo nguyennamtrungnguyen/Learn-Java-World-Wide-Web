@@ -11,10 +11,43 @@
 <head>
     <title>Customer</title>
     <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
         .customerlist{
             display: flex;
             flex-direction: column;
+            width: 750px;
+            margin: 50px;
         }
+        table{
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        th, td {
+            border: 1px solid black;
+
+            padding: 8px;
+            text-align: left;
+        }
+
+        th{
+            font-weight: bold;
+        }
+
+        a {
+            display: inline-block;
+            width: 160px;
+            color: white;
+            background: red;
+            text-decoration: none;
+            border-radius: 10px;
+            padding: 10px;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+
     </style>
 </head>
 <body>

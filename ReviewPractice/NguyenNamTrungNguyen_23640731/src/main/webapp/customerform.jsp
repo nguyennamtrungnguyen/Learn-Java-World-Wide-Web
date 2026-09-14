@@ -10,11 +10,39 @@
 <head>
     <title>Thêm Khách Hàng</title>
     <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
         .customerform{
             display: flex;
             flex-direction: column;
-            gap: 10px;
-            width: 40vh;
+            width: 500px;
+            margin: 50px;
+            border: 1px solid black;
+            padding: 20px;
+        }
+
+        input , select{
+            width: 250px;
+            padding: 5px;
+            margin-bottom: 15px;
+        }
+
+        select {
+            width: 160px;
+        }
+
+        button {
+            display: inline-block;
+            width: 160px;
+            color: white;
+            background: blue;
+            text-decoration: none;
+            border-radius: 10px;
+            padding: 10px;
+            margin-bottom: 10px;
+            text-align: center;
+            cursor: pointer;
         }
     </style>
 </head>
