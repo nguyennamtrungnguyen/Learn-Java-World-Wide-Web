@@ -1,0 +1,13 @@
+package iuh.fit.nguyennamtrungnguyen;
+
+import org.junit.jupiter.api.Test;
+import org.springframework.boot.test.context.SpringBootTest;
+
+@SpringBootTest
+class SpingbootDemoApplicationTests {
+
+	@Test
+	void contextLoads() {
+	}
+
+}
