@@ -33,7 +33,7 @@ public class UserResource {
     @GET// Đường dẫn mặc định của API sẽ là /user
     @Produces(MediaType.APPLICATION_JSON) // Khai báo dữ liệu trả về là JSON
     public Response getAllUsers() {
-// tạo danh sách user
+// tạo danh sách userA2
 // thay đổi danh sách từ Database
         List<User> userList = new ArrayList<>();
         userList.add(new User(1, "Mai Hoàng", "hoang@gmail.com"));
