@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Quản Lý Nhân Viên | HRMS</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css"/>
+    <style>
+        body { background-color: #f8f9fa; }
+        .sidebar { min-height: calc(100vh - 56px); background: #212529; padding-top: 1rem; }
+        .sidebar .nav-link { color: #adb5bd; padding: .6rem 1.2rem; border-radius: 6px; margin: 2px 8px; }
+        .sidebar .nav-link:hover, .sidebar .nav-link.active { color: #fff; background: #0d6efd; }
+        .sidebar .nav-link i { margin-right: 8px; }
+        .main-content { padding: 1.5rem; }
+        .card { border: none; box-shadow: 0 2px 8px rgba(0,0,0,.08); border-radius: 10px; }
+        .card-header { background: #0d6efd; color: white; border-radius: 10px 10px 0 0 !important; font-weight: 600; }
+        .table th { background: #e9ecef; }
+        footer { background: #212529; color: #adb5bd; padding: 1rem 0; margin-top: 2rem; }
+    </style>
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container-fluid">
+        <a class="navbar-brand fw-bold" th:href="@{/}"><i class="bi bi-people-fill text-primary"></i> HRMS</a>
+        <div class="collapse navbar-collapse">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item"><a class="nav-link active" th:href="@{/employees}"><i class="bi bi-person-badge"></i> Nhân Viên</a></li>
+                <li class="nav-item"><a class="nav-link" th:href="@{/departments}"><i class="bi bi-building"></i> Phòng Ban</a></li>
+                <li class="nav-item"><a class="nav-link" th:href="@{/stats/age}"><i class="bi bi-bar-chart"></i> Thống Kê</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<div class="container-fluid">
+    <div class="row">
+        <nav class="col-md-2 d-none d-md-block sidebar py-3">
+            <ul class="nav flex-column">
+                <li class="nav-item"><a class="nav-link" th:href="@{/}"><i class="bi bi-speedometer2"></i> Dashboard</a></li>
+                <hr class="border-secondary"/>
+                <li class="nav-item"><a class="nav-link active" th:href="@{/employees}"><i class="bi bi-person-lines-fill"></i> Nhân Viên</a></li>
+                <li class="nav-item"><a class="nav-link" th:href="@{/employees/add}"><i class="bi bi-person-plus"></i> Thêm Nhân Viên</a></li>
+                <hr class="border-secondary"/>
+                <li class="nav-item"><a class="nav-link" th:href="@{/departments}"><i class="bi bi-building"></i> Phòng Ban</a></li>
+                <li class="nav-item"><a class="nav-link" th:href="@{/departments/add}"><i class="bi bi-building-add"></i> Thêm Phòng Ban</a></li>
+                <hr class="border-secondary"/>
+                <li class="nav-item"><a class="nav-link" th:href="@{/stats/age}"><i class="bi bi-bar-chart-fill"></i> Thống Kê Tuổi</a></li>
+            </ul>
+        </nav>
+
+        <main class="col-md-10 main-content">
+            <!-- Flash messages -->
+            <div th:if="${successMessage}" class="alert alert-success alert-dismissible fade show">
+                <i class="bi bi-check-circle-fill"></i> <span th:text="${successMessage}"></span>
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>
+            <div th:if="${errorMessage}" class="alert alert-danger alert-dismissible fade show">
+                <i class="bi bi-exclamation-triangle-fill"></i> <span th:text="${errorMessage}"></span>
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>
+
+            <div class="card">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <span><i class="bi bi-person-lines-fill"></i> Danh Sách Nhân Viên</span>
+                    <a th:href="@{/employees/add}" class="btn btn-sm btn-light">
+                        <i class="bi bi-plus-circle"></i> Thêm Nhân Viên
+                    </a>
+                </div>
+                <div class="card-body">
+                    <!-- Filter & Search -->
+                    <div class="row g-2 mb-3">
+                        <!-- Lọc theo phòng ban -->
+                        <div class="col-md-4">
+                            <form method="get" th:action="@{/employees}" class="d-flex gap-2">
+                                <select name="deptId" class="form-select form-select-sm">
+                                    <option value="">-- Tất cả phòng ban --</option>
+                                    <option th:each="dept : ${departments}"
+                                            th:value="${dept.deptId}"
+                                            th:text="${dept.deptName}"
+                                            th:selected="${dept.deptId == selectedDeptId}">
+                                    </option>
+                                </select>
+                                <button type="submit" class="btn btn-sm btn-outline-primary">
+                                    <i class="bi bi-funnel"></i> Lọc
+                                </button>
+                            </form>
+                        </div>
+                        <!-- Tìm kiếm theo tên -->
+                        <div class="col-md-4">
+                            <form method="get" th:action="@{/employees}" class="d-flex gap-2">
+                                <input type="text" name="keyword" class="form-control form-control-sm"
+                                       placeholder="Tìm theo tên nhân viên..."
+                                       th:value="${keyword}"/>
+                                <button type="submit" class="btn btn-sm btn-outline-success">
+                                    <i class="bi bi-search"></i>
+                                </button>
+                            </form>
+                        </div>
+                        <!-- Reset -->
+                        <div class="col-md-2">
+                            <a th:href="@{/employees}" class="btn btn-sm btn-outline-secondary">
+                                <i class="bi bi-arrow-counterclockwise"></i> Tất cả
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Table -->
+                    <div class="table-responsive">
+                        <table class="table table-hover table-bordered align-middle mb-0">
+                            <thead>
+                                <tr>
+                                    <th style="width:50px">#</th>
+                                    <th>ID</th>
+                                    <th>Họ Tên</th>
+                                    <th>Ngày Sinh</th>
+                                    <th>Tuổi</th>
+                                    <th>Phòng Ban</th>
+                                    <th style="width:150px">Thao Tác</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr th:if="${employees.empty}">
+                                    <td colspan="7" class="text-center text-muted py-4">
+                                        <i class="bi bi-inbox fs-3"></i><br/>Không có nhân viên nào.
+                                    </td>
+                                </tr>
+                                <tr th:each="emp, stat : ${employees}">
+                                    <td th:text="${stat.count}"></td>
+                                    <td><span class="badge bg-secondary" th:text="${emp.empId}"></span></td>
+                                    <td>
+                                        <i class="bi bi-person-fill text-primary"></i>
+                                        <strong th:text="${emp.empName}"></strong>
+                                    </td>
+                                    <td>
+                                        <span th:text="${#dates.format(emp.dob, 'dd/MM/yyyy')}"></span>
+                                    </td>
+                                    <td>
+                                        <!-- Tính tuổi: năm hiện tại - năm sinh -->
+                                        <span class="badge bg-info text-dark"
+                                              th:text="${#dates.year(new java.util.Date()) - #dates.year(emp.dob) + ' tuổi'}">
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <span class="badge bg-success"
+                                              th:text="${emp.dept != null ? emp.dept.deptName : 'N/A'}">
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <a th:href="@{/employees/edit/{id}(id=${emp.empId})}"
+                                           class="btn btn-sm btn-outline-warning" title="Sửa">
+                                            <i class="bi bi-pencil"></i>
+                                        </a>
+                                        <a th:href="@{/employees/delete/{id}(id=${emp.empId})}"
+                                           class="btn btn-sm btn-outline-danger" title="Xóa"
+                                           th:onclick="|return confirm('Xóa nhân viên ${emp.empName}?')|">
+                                            <i class="bi bi-trash"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="mt-3 text-muted small">
+                        Tổng: <strong th:text="${employees.size()}"></strong> nhân viên
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+</div>
+
+<footer class="text-center mt-4">
+    <div class="container"><small><i class="bi bi-people-fill text-primary"></i> HRMS &copy; 2026</small></div>
+</footer>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
