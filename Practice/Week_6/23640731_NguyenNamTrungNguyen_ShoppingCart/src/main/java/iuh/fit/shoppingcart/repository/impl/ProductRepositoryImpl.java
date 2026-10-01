@@ -22,13 +22,7 @@ public class ProductRepositoryImpl implements ProductRepository {
              ResultSet rs = ps.executeQuery()) {
 
             while (rs.next()) {
-                list.add(new Product(
-                        rs.getInt("id"),
-                        rs.getString("name"),
-                        rs.getDouble("price"),
-                        rs.getString("description"),
-                        rs.getString("image_url")
-                ));
+                list.add(mapRow(rs));
             }
 
         } catch (SQLException e) {
@@ -49,13 +43,7 @@ public class ProductRepositoryImpl implements ProductRepository {
 
             try (ResultSet rs = ps.executeQuery()) {
                 if (rs.next()) {
-                    return new Product(
-                            rs.getInt("id"),
-                            rs.getString("name"),
-                            rs.getDouble("price"),
-                            rs.getString("description"),
-                            rs.getString("image_url")
-                    );
+                    return mapRow(rs);
                 }
             }
 
@@ -122,5 +110,15 @@ public class ProductRepositoryImpl implements ProductRepository {
             e.printStackTrace();
             return false;
         }
+    }
+
+    private Product mapRow(ResultSet rs) throws SQLException {
+        return new Product(
+                rs.getInt("id"),
+                rs.getString("name"),
+                rs.getDouble("price"),
+                rs.getString("description"),
+                rs.getString("image_url")
+        );
     }
 }
