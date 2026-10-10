@@ -1,5 +1,15 @@
 package vn.fit.nguyennamtrungnguyen.service;
 
+import vn.fit.nguyennamtrungnguyen.model.DanhMuc;
+import vn.fit.nguyennamtrungnguyen.model.TinTuc;
+import vn.fit.nguyennamtrungnguyen.repository.DanhMucRepository;
+import vn.fit.nguyennamtrungnguyen.repository.TinTucRepository;
+import vn.fit.nguyennamtrungnguyen.repository.impl.DanhMucRepositoryImpl;
+import vn.fit.nguyennamtrungnguyen.repository.impl.TinTucRepositoryImpl;
+
+import java.sql.SQLException;
+import java.util.List;
+
 /**
  * @author Nguyễn Nam Trung Nguyên
  * @version 1.0
@@ -8,4 +18,28 @@ package vn.fit.nguyennamtrungnguyen.service;
  * @since 10/10/2026
  */
 public class DanhMucService {
+    private final DanhMucRepository danhMucRepository = new DanhMucRepositoryImpl();
+    public List<DanhMuc> findAll() throws SQLException {
+        return danhMucRepository.findAll();
+    }
+
+    // Tìm tin tức theo mã
+    public DanhMuc findById(int maDM) throws SQLException {
+        return danhMucRepository.findById(maDM);
+    }
+
+    // Thêm tin tức
+    public boolean save(DanhMuc danhMuc) throws SQLException {
+        return danhMucRepository.save(danhMuc);
+    }
+
+    // Cập nhật tin tức
+    public boolean update(DanhMuc danhMuc) throws SQLException {
+        return danhMucRepository.update(danhMuc);
+    }
+
+    // Xóa tin tức theo mã
+    public boolean delete(int maDM) throws SQLException {
+        return danhMucRepository.delete(maDM);
+    }
 }

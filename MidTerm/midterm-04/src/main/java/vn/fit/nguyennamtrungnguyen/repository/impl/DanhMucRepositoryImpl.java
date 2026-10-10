@@ -19,7 +19,7 @@ import java.util.List;
  * @Class DHKTPM19ATT
  * @since 10/10/2026
  */
-public class DanhMucRepositoryImpl {
+public class DanhMucRepositoryImpl implements vn.fit.nguyennamtrungnguyen.repository.DanhMucRepository {
 
     private DanhMuc mapRow(ResultSet rs) throws SQLException {
         return new DanhMuc(
@@ -31,6 +31,7 @@ public class DanhMucRepositoryImpl {
     }
 
     // Lấy tất cả danh mục
+    @Override
     public List<DanhMuc> findAll() throws SQLException {
         List<DanhMuc> danhMucList = new ArrayList<>();
 
@@ -52,6 +53,7 @@ public class DanhMucRepositoryImpl {
     }
 
     // Tìm danh mục theo mã
+    @Override
     public DanhMuc findById(int maDM) throws SQLException {
         String sql = """
                 SELECT *
@@ -75,6 +77,7 @@ public class DanhMucRepositoryImpl {
     }
 
     // Thêm danh mục
+    @Override
     public boolean save(DanhMuc danhMuc) throws SQLException {
         String sql = """
                 INSERT INTO DANHMUC
@@ -107,6 +110,7 @@ public class DanhMucRepositoryImpl {
     }
 
     // Cập nhật danh mục
+    @Override
     public boolean update(DanhMuc danhMuc) throws SQLException {
         String sql = """
                 UPDATE DANHMUC
@@ -129,6 +133,7 @@ public class DanhMucRepositoryImpl {
     }
 
     // Xóa danh mục theo mã
+    @Override
     public boolean delete(int maDM) throws SQLException {
         String sql = """
                 DELETE FROM DANHMUC

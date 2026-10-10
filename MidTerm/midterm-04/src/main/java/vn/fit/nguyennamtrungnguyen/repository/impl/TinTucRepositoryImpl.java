@@ -19,7 +19,7 @@ import java.util.List;
  * @Class DHKTPM19ATT
  * @since 10/10/2026
  */
-public class TinTucRepositoryImpl {
+public class TinTucRepositoryImpl implements vn.fit.nguyennamtrungnguyen.repository.TinTucRepository {
 
     private TinTuc mapRow(ResultSet rs) throws SQLException {
         return new TinTuc(
@@ -32,6 +32,7 @@ public class TinTucRepositoryImpl {
     }
 
     // Lấy tất cả tin tức
+    @Override
     public List<TinTuc> findAll() throws SQLException {
         List<TinTuc> tinTucList = new ArrayList<>();
         String sql = "SELECT * FROM TINTUC";
@@ -49,6 +50,7 @@ public class TinTucRepositoryImpl {
     }
 
     // Tìm tin tức theo mã
+    @Override
     public TinTuc findById(int maTT) throws SQLException {
         String sql = "SELECT * FROM TINTUC WHERE MATT = ?";
 
@@ -68,6 +70,7 @@ public class TinTucRepositoryImpl {
     }
 
     // Thêm tin tức
+    @Override
     public boolean save(TinTuc tinTuc) throws SQLException {
         String sql = """
                 INSERT INTO TINTUC
@@ -101,6 +104,7 @@ public class TinTucRepositoryImpl {
     }
 
     // Cập nhật tin tức
+    @Override
     public boolean update(TinTuc tinTuc) throws SQLException {
         String sql = """
                 UPDATE TINTUC
@@ -125,6 +129,7 @@ public class TinTucRepositoryImpl {
     }
 
     // Xóa tin tức theo mã
+    @Override
     public boolean delete(int maTT) throws SQLException {
         String sql = "DELETE FROM TINTUC WHERE MATT = ?";
 
