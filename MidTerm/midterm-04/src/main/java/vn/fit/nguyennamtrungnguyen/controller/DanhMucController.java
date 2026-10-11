@@ -91,4 +91,12 @@ public class DanhMucController {
                 .entity(Map.of("message", "Danh muc not found"))
                 .build();
     }
+
+    @GET
+    @Path("thongketheosoluong")
+    public Response getAllWithSoLuongTinTuc() throws SQLException {
+        return Response
+                .ok(danhMucService.thongKeSoLuongTinTucTheoDanhMuc())
+                .build();
+    }
 }

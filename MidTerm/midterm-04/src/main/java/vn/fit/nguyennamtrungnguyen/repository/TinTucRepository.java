@@ -1,7 +1,7 @@
 package vn.fit.nguyennamtrungnguyen.repository;
 
 import vn.fit.nguyennamtrungnguyen.model.TinTuc;
-import vn.fit.nguyennamtrungnguyen.model.TinTucDanhMucDTO;
+import vn.fit.nguyennamtrungnguyen.dto.TinTucDanhMucDTO;
 
 import java.sql.SQLException;
 import java.util.List;

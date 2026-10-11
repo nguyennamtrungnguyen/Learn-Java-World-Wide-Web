@@ -1,13 +1,11 @@
 package vn.fit.nguyennamtrungnguyen.service;
 
 import vn.fit.nguyennamtrungnguyen.model.TinTuc;
-import vn.fit.nguyennamtrungnguyen.model.TinTucDanhMucDTO;
+import vn.fit.nguyennamtrungnguyen.dto.TinTucDanhMucDTO;
 import vn.fit.nguyennamtrungnguyen.repository.TinTucRepository;
 import vn.fit.nguyennamtrungnguyen.repository.impl.TinTucRepositoryImpl;
-import vn.fit.nguyennamtrungnguyen.util.DBConnection;
 
 import java.sql.*;
-import java.util.ArrayList;
 import java.util.List;
 
 /**

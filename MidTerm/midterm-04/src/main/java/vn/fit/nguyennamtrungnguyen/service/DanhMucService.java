@@ -1,5 +1,6 @@
 package vn.fit.nguyennamtrungnguyen.service;
 
+import vn.fit.nguyennamtrungnguyen.dto.ThongKeDanhMucDTO;
 import vn.fit.nguyennamtrungnguyen.model.DanhMuc;
 import vn.fit.nguyennamtrungnguyen.model.TinTuc;
 import vn.fit.nguyennamtrungnguyen.repository.DanhMucRepository;
@@ -41,5 +42,9 @@ public class DanhMucService {
     // Xóa tin tức theo mã
     public boolean delete(int maDM) throws SQLException {
         return danhMucRepository.delete(maDM);
+    }
+
+    public List<ThongKeDanhMucDTO> thongKeSoLuongTinTucTheoDanhMuc() throws SQLException{
+        return danhMucRepository.thongKeSoLuongTinTucTheoDanhMuc();
     }
 }

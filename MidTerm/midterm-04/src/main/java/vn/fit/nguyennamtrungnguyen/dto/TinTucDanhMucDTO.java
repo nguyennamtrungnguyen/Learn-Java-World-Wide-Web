@@ -1,4 +1,4 @@
-package vn.fit.nguyennamtrungnguyen.model;
+package vn.fit.nguyennamtrungnguyen.dto;
 
 /**
  * @author Nguyễn Nam Trung Nguyên

@@ -1,7 +1,7 @@
 package vn.fit.nguyennamtrungnguyen.repository.impl;
 
 import vn.fit.nguyennamtrungnguyen.model.TinTuc;
-import vn.fit.nguyennamtrungnguyen.model.TinTucDanhMucDTO;
+import vn.fit.nguyennamtrungnguyen.dto.TinTucDanhMucDTO;
 import vn.fit.nguyennamtrungnguyen.repository.TinTucRepository;
 import vn.fit.nguyennamtrungnguyen.util.DBConnection;
 

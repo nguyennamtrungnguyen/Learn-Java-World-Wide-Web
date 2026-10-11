@@ -1,6 +1,7 @@
 package vn.fit.nguyennamtrungnguyen.repository;
 
 import vn.fit.nguyennamtrungnguyen.model.DanhMuc;
+import vn.fit.nguyennamtrungnguyen.dto.ThongKeDanhMucDTO;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -27,4 +28,7 @@ public interface DanhMucRepository {
 
     // Xóa danh mục theo mã
     boolean delete(int maDM) throws SQLException;
+    List<ThongKeDanhMucDTO> thongKeSoLuongTinTucTheoDanhMuc() throws SQLException;
+
+
 }
