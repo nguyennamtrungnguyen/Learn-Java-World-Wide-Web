@@ -215,4 +215,45 @@ public class DanhMucRepositoryImpl implements DanhMucRepository {
 
         return danhMucList;
     }
+//
+//    5. Tìm danh mục có số lượng bài viết tin tức nhiều nhất
+//    Câu lệnh sử dụng truy vấn con (Subquery) kết hợp với hàm MAX() để tìm ra
+//    danh mục đang sở hữu lượng tin tức lớn nhất trong hệ thống.
+
+
+    @Override
+    public List<ThongKeDanhMucDTO> findDanhMucCoNhieuTinTucNhat() throws SQLException {
+        List<ThongKeDanhMucDTO> danhMucList = new ArrayList<>();
+
+        String sql = """
+                SELECT d.MADM, d.TENDANHMUC, COUNT(t.MATT) AS SOLUONG_TINTUC
+                 FROM DANHMUC d
+                 LEFT JOIN TINTUC t ON d.MADM = t.MADM
+                 GROUP BY d.MADM, d.TENDANHMUC
+                 HAVING COUNT(t.MATT) = (
+                 SELECT MAX(SoLuong)
+                 FROM (
+                         SELECT COUNT(t2.MATT) AS SoLuong
+                 FROM DANHMUC d2
+                 LEFT JOIN TINTUC t2 ON d2.MADM = t2.MADM
+                 GROUP BY d2.MADM
+                   ) AS ThongKeMax
+                   );
+                """;
+
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
+
+            while (rs.next()) {
+                danhMucList.add(new ThongKeDanhMucDTO(
+                        rs.getInt("MADM"),
+                        rs.getString("TENDANHMUC"),
+                        rs.getLong("SOLUONG_TINTUC")
+                ));
+            }
+        }
+
+        return danhMucList;
+    }
 }

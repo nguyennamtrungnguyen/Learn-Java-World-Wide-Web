@@ -51,4 +51,8 @@ public class DanhMucService {
     public List<ThongKeDanhMucDTO> lietKeCacDanhMucSLTTTu3TroLen() throws SQLException{
         return danhMucRepository.lietKeCacDanhMucSLTTTu3TroLen();
     }
+
+    public List<ThongKeDanhMucDTO> findDanhMucCoNhieuTinTucNhat() throws SQLException {
+        return danhMucRepository.findDanhMucCoNhieuTinTucNhat();
+    }
 }
