@@ -48,4 +48,8 @@ public class TinTucService {
     public List<DanhMucTinTucDTO> findAllWithNameDanhMucCuThe(String nameDanhMUC) throws SQLException{
         return tinTucRepository.findAllWithNameDanhMucCuThe(nameDanhMUC);
     }
+
+    public List<DanhMucTinTucDTO> findAllCoTieuDeChuaTuKhoaCongNghe() throws SQLException{
+        return tinTucRepository.findAllCoTieuDeChuaTuKhoaCongNghe();
+    }
 }

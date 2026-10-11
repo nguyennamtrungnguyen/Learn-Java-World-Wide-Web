@@ -101,5 +101,11 @@ public class TinTucController {
                 .ok(tinTucService.findAllWithNameDanhMucCuThe(nameDanhMuc))
                 .build();
     }
-
+    @GET
+    @Path("/findAllCoTieuDeChuaTuKhoaCongNghe")
+    public Response getAllCoTieuDeChuaTuKhoaCongNghe() throws SQLException {
+        return Response
+                .ok(tinTucService.findAllCoTieuDeChuaTuKhoaCongNghe())
+                .build();
+    }
 }

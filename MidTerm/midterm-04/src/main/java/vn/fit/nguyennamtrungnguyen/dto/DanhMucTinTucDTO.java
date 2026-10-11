@@ -37,6 +37,13 @@ public class DanhMucTinTucDTO {
         this.noidungTT = noidungTT;
     }
 
+    public DanhMucTinTucDTO(String tenDanhMuc, int matt, String tieuDe, String lienKet) {
+        this.tenDanhMuc = tenDanhMuc;
+        this.matt = matt;
+        this.tieuDe = tieuDe;
+        this.lienKet = lienKet;
+    }
+
     public int getMadm() {
         return madm;
     }

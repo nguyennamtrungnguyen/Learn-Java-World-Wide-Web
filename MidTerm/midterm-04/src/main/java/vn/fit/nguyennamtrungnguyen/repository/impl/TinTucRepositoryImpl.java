@@ -188,5 +188,29 @@ public class TinTucRepositoryImpl implements TinTucRepository {
 //    7. Lấy danh sách tin tức có tiêu đề chứa từ khóa "công nghệ"
 //    Câu lệnh kết hợp INNER JOIN với mệnh đề WHERE và toán tử LIKE để tìm
 //    các tin tức có tiêu đề chứa từ khóa cần tìm.
-//    public List<>
+    @Override
+    public List<DanhMucTinTucDTO> findAllCoTieuDeChuaTuKhoaCongNghe() throws SQLException{
+        List<DanhMucTinTucDTO> list = new ArrayList<>();
+        String sql = """
+                SELECT d.TENDANHMUC, t.MATT, t.TIEUDE, t.LIENKET
+                FROM TINTUC t
+                INNER JOIN DANHMUC d ON t.MADM = d.MADM
+                WHERE t.TIEUDE LIKE '%công nghệ%';
+                """;
+
+        try (Connection conn = DBConnection.getConnection();
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery()
+        ){
+            while (rs.next()){
+                list.add(new DanhMucTinTucDTO(
+                        rs.getString("TENDANHMUC"),
+                        rs.getInt("MATT"),
+                        rs.getString("TIEUDE"),
+                        rs.getString("LIENKET")
+                ));
+            }
+        }
+        return list;
+    }
 }

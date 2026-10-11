@@ -26,5 +26,10 @@ public interface TinTucRepository {
     boolean delete(int maTT) throws SQLException;
     List<DanhMucTinTucDTO> findAllWithNameDanhMuc() throws SQLException;
     List<DanhMucTinTucDTO> findAllWithNameDanhMucCuThe(String nameDanhMUC) throws SQLException;
+
+    //    7. Lấy danh sách tin tức có tiêu đề chứa từ khóa "công nghệ"
+    //    Câu lệnh kết hợp INNER JOIN với mệnh đề WHERE và toán tử LIKE để tìm
+    //    các tin tức có tiêu đề chứa từ khóa cần tìm.
+    List<DanhMucTinTucDTO> findAllCoTieuDeChuaTuKhoaCongNghe() throws SQLException;
 }
 
