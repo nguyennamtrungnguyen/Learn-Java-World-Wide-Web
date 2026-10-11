@@ -1,6 +1,7 @@
 package vn.fit.nguyennamtrungnguyen.repository;
 
 import vn.fit.nguyennamtrungnguyen.model.TinTuc;
+import vn.fit.nguyennamtrungnguyen.model.TinTucDanhMucDTO;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -20,11 +21,15 @@ public interface TinTucRepository {
     TinTuc findById(int maTT) throws SQLException;
 
     // Thêm tin tức
-    boolean save(TinTuc tinTuc) throws SQLException;
+    boolean create(TinTuc tinTuc) throws SQLException;
 
     // Cập nhật tin tức
     boolean update(TinTuc tinTuc) throws SQLException;
 
     // Xóa tin tức theo mã
     boolean delete(int maTT) throws SQLException;
+
+    List<TinTucDanhMucDTO> findAllWithNameDanhMuc() throws SQLException;
+    List<TinTucDanhMucDTO> findAllWithNameDanhMucCuThe(String nameDanhMUC) throws SQLException;
 }
+

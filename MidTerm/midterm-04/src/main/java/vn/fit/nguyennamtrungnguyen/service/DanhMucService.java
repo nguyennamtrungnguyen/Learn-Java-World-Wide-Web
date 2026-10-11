@@ -29,8 +29,8 @@ public class DanhMucService {
     }
 
     // Thêm tin tức
-    public boolean save(DanhMuc danhMuc) throws SQLException {
-        return danhMucRepository.save(danhMuc);
+    public boolean create(DanhMuc danhMuc) throws SQLException {
+        return danhMucRepository.create(danhMuc);
     }
 
     // Cập nhật tin tức

@@ -1,6 +1,7 @@
 package vn.fit.nguyennamtrungnguyen.service;
 
 import vn.fit.nguyennamtrungnguyen.model.TinTuc;
+import vn.fit.nguyennamtrungnguyen.model.TinTucDanhMucDTO;
 import vn.fit.nguyennamtrungnguyen.repository.TinTucRepository;
 import vn.fit.nguyennamtrungnguyen.repository.impl.TinTucRepositoryImpl;
 import vn.fit.nguyennamtrungnguyen.util.DBConnection;
@@ -28,8 +29,8 @@ public class TinTucService {
     }
 
     // Thêm tin tức
-    public boolean save(TinTuc tinTuc) throws SQLException {
-        return tinTucRepository.save(tinTuc);
+    public boolean create(TinTuc tinTuc) throws SQLException {
+        return tinTucRepository.create(tinTuc);
     }
 
     // Cập nhật tin tức
@@ -40,5 +41,13 @@ public class TinTucService {
     // Xóa tin tức theo mã
     public boolean delete(int maTT) throws SQLException {
         return tinTucRepository.delete(maTT);
+    }
+
+    public List<TinTucDanhMucDTO> findAllWithNameDanhMuc () throws SQLException{
+        return tinTucRepository.findAllWithNameDanhMuc();
+    }
+
+    public List<TinTucDanhMucDTO> findAllWithNameDanhMucCuThe(String nameDanhMUC) throws SQLException{
+        return tinTucRepository.findAllWithNameDanhMucCuThe(nameDanhMUC);
     }
 }

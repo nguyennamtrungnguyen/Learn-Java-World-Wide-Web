@@ -20,7 +20,7 @@ public interface DanhMucRepository {
     DanhMuc findById(int maDM) throws SQLException;
 
     // Thêm danh mục
-    boolean save(DanhMuc danhMuc) throws SQLException;
+    boolean create(DanhMuc danhMuc) throws SQLException;
 
     // Cập nhật danh mục
     boolean update(DanhMuc danhMuc) throws SQLException;

@@ -2,8 +2,8 @@
 package vn.fit.nguyennamtrungnguyen.repository.impl;
 
 import vn.fit.nguyennamtrungnguyen.model.DanhMuc;
+import vn.fit.nguyennamtrungnguyen.repository.DanhMucRepository;
 import vn.fit.nguyennamtrungnguyen.util.DBConnection;
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -19,7 +19,7 @@ import java.util.List;
  * @Class DHKTPM19ATT
  * @since 10/10/2026
  */
-public class DanhMucRepositoryImpl implements vn.fit.nguyennamtrungnguyen.repository.DanhMucRepository {
+public class DanhMucRepositoryImpl implements DanhMucRepository {
 
     private DanhMuc mapRow(ResultSet rs) throws SQLException {
         return new DanhMuc(
@@ -78,7 +78,7 @@ public class DanhMucRepositoryImpl implements vn.fit.nguyennamtrungnguyen.reposi
 
     // Thêm danh mục
     @Override
-    public boolean save(DanhMuc danhMuc) throws SQLException {
+    public boolean create(DanhMuc danhMuc) throws SQLException {
         String sql = """
                 INSERT INTO DANHMUC
                     (TENDANHMUC, NGUOIQUANLY, GHICHU)
@@ -148,4 +148,6 @@ public class DanhMucRepositoryImpl implements vn.fit.nguyennamtrungnguyen.reposi
             return ps.executeUpdate() > 0;
         }
     }
+
+
 }

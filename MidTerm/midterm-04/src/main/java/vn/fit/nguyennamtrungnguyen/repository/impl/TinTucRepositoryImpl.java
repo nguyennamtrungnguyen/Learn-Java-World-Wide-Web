@@ -1,7 +1,8 @@
-
 package vn.fit.nguyennamtrungnguyen.repository.impl;
 
 import vn.fit.nguyennamtrungnguyen.model.TinTuc;
+import vn.fit.nguyennamtrungnguyen.model.TinTucDanhMucDTO;
+import vn.fit.nguyennamtrungnguyen.repository.TinTucRepository;
 import vn.fit.nguyennamtrungnguyen.util.DBConnection;
 
 import java.sql.Connection;
@@ -19,7 +20,7 @@ import java.util.List;
  * @Class DHKTPM19ATT
  * @since 10/10/2026
  */
-public class TinTucRepositoryImpl implements vn.fit.nguyennamtrungnguyen.repository.TinTucRepository {
+public class TinTucRepositoryImpl implements TinTucRepository {
 
     private TinTuc mapRow(ResultSet rs) throws SQLException {
         return new TinTuc(
@@ -36,16 +37,13 @@ public class TinTucRepositoryImpl implements vn.fit.nguyennamtrungnguyen.reposit
     public List<TinTuc> findAll() throws SQLException {
         List<TinTuc> tinTucList = new ArrayList<>();
         String sql = "SELECT * FROM TINTUC";
-
         try (Connection conn = DBConnection.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql);
              ResultSet rs = ps.executeQuery()) {
-
             while (rs.next()) {
                 tinTucList.add(mapRow(rs));
             }
         }
-
         return tinTucList;
     }
 
@@ -53,52 +51,42 @@ public class TinTucRepositoryImpl implements vn.fit.nguyennamtrungnguyen.reposit
     @Override
     public TinTuc findById(int maTT) throws SQLException {
         String sql = "SELECT * FROM TINTUC WHERE MATT = ?";
-
         try (Connection conn = DBConnection.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
-
             ps.setInt(1, maTT);
-
             try (ResultSet rs = ps.executeQuery()) {
                 if (rs.next()) {
                     return mapRow(rs);
                 }
             }
         }
-
         return null;
     }
 
     // Thêm tin tức
     @Override
-    public boolean save(TinTuc tinTuc) throws SQLException {
+    public boolean create(TinTuc tinTuc) throws SQLException {
         String sql = """
                 INSERT INTO TINTUC
                     (TIEUDE, NOIDUNGTT, LIENKET, MADM)
                 VALUES (?, ?, ?, ?)
                 """;
-
         try (Connection conn = DBConnection.getConnection();
              PreparedStatement ps = conn.prepareStatement(
                      sql, Statement.RETURN_GENERATED_KEYS)) {
-
             ps.setString(1, tinTuc.getTIEUDE());
             ps.setString(2, tinTuc.getNOIDUNGTT());
             ps.setString(3, tinTuc.getLIENKET());
             ps.setInt(4, tinTuc.getMADM());
-
             int affectedRows = ps.executeUpdate();
-
             if (affectedRows == 0) {
                 return false;
             }
-
             try (ResultSet rs = ps.getGeneratedKeys()) {
                 if (rs.next()) {
                     tinTuc.setMATT(rs.getInt(1));
                 }
             }
-
             return true;
         }
     }
@@ -114,16 +102,13 @@ public class TinTucRepositoryImpl implements vn.fit.nguyennamtrungnguyen.reposit
                     MADM = ?
                 WHERE MATT = ?
                 """;
-
         try (Connection conn = DBConnection.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
-
             ps.setString(1, tinTuc.getTIEUDE());
             ps.setString(2, tinTuc.getNOIDUNGTT());
             ps.setString(3, tinTuc.getLIENKET());
             ps.setInt(4, tinTuc.getMADM());
             ps.setInt(5, tinTuc.getMATT());
-
             return ps.executeUpdate() > 0;
         }
     }
@@ -132,13 +117,66 @@ public class TinTucRepositoryImpl implements vn.fit.nguyennamtrungnguyen.reposit
     @Override
     public boolean delete(int maTT) throws SQLException {
         String sql = "DELETE FROM TINTUC WHERE MATT = ?";
-
         try (Connection conn = DBConnection.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
-
             ps.setInt(1, maTT);
-
             return ps.executeUpdate() > 0;
         }
+    }
+
+    //    1. Lấy danh sách tất cả tin tức kèm theo tên danh mục tương ứng
+    @Override
+    public List<TinTucDanhMucDTO> findAllWithNameDanhMuc () throws SQLException{
+        List<TinTucDanhMucDTO> list = new ArrayList<>();
+        String sql = """
+            select t.MATT, t.TIEUDE, d.TENDANHMUC
+            from TINTUC t
+            inner join DANHMUC d ON t.MADM = d.MADM
+        """;
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
+            while (rs.next()) {
+                list.add(
+                        new TinTucDanhMucDTO(
+                                rs.getInt("MATT"),
+                                rs.getString("TIEUDE"),
+                                rs.getString("TENDANHMUC")
+                        )
+                );
+            }
+        }
+        return list;
+    }
+
+//    2. Lấy danh sách tin tức thuộc về một danh mục cụ thể (Ví dụ: "Thời sự")
+//    Câu lệnh kết hợp INNER JOIN với mệnh đề WHERE để lọc dữ liệu theo tên
+//    danh mục.
+
+    @Override
+    public List<TinTucDanhMucDTO> findAllWithNameDanhMucCuThe (String nameDanhMUC) throws SQLException{
+        List<TinTucDanhMucDTO> list = new ArrayList<>();
+        String sql = """
+            select t.MATT, t.TIEUDE, t.NOIDUNGTT d.TENDANHMUC
+            from TINTUC t
+            inner join DANHMUC d ON t.MADM = d.MADM
+            where d.TENDANHMUC = ?
+        """;
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
+            ps.setString(1, nameDanhMUC);
+            while (rs.next()) {
+                list.add(
+                        new TinTucDanhMucDTO(
+                                rs.getInt("MATT"),
+                                rs.getString("TIEUDE"),
+                                rs.getString("NOIDUNGTT"),
+                                rs.getString("TENDANHMUC")
+                        )
+                );
+            }
+        }
+        return list;
     }
 }
