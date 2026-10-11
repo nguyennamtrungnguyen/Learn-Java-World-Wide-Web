@@ -3,12 +3,8 @@ package vn.fit.nguyennamtrungnguyen.service;
 import vn.fit.nguyennamtrungnguyen.dto.DanhMucTinTucDTO;
 import vn.fit.nguyennamtrungnguyen.dto.ThongKeDanhMucDTO;
 import vn.fit.nguyennamtrungnguyen.model.DanhMuc;
-import vn.fit.nguyennamtrungnguyen.model.TinTuc;
 import vn.fit.nguyennamtrungnguyen.repository.DanhMucRepository;
-import vn.fit.nguyennamtrungnguyen.repository.TinTucRepository;
 import vn.fit.nguyennamtrungnguyen.repository.impl.DanhMucRepositoryImpl;
-import vn.fit.nguyennamtrungnguyen.repository.impl.TinTucRepositoryImpl;
-
 import java.sql.SQLException;
 import java.util.List;
 

@@ -1,7 +1,7 @@
 package vn.fit.nguyennamtrungnguyen.repository.impl;
 
+import vn.fit.nguyennamtrungnguyen.dto.DanhMucTinTucDTO;
 import vn.fit.nguyennamtrungnguyen.model.TinTuc;
-import vn.fit.nguyennamtrungnguyen.dto.TinTucDanhMucDTO;
 import vn.fit.nguyennamtrungnguyen.repository.TinTucRepository;
 import vn.fit.nguyennamtrungnguyen.util.DBConnection;
 
@@ -126,8 +126,8 @@ public class TinTucRepositoryImpl implements TinTucRepository {
 
     //    1. Lấy danh sách tất cả tin tức kèm theo tên danh mục tương ứng
     @Override
-    public List<TinTucDanhMucDTO> findAllWithNameDanhMuc () throws SQLException{
-        List<TinTucDanhMucDTO> list = new ArrayList<>();
+    public List<DanhMucTinTucDTO> findAllWithNameDanhMuc () throws SQLException{
+        List<DanhMucTinTucDTO> list = new ArrayList<>();
         String sql = """
             select t.MATT, t.TIEUDE, d.TENDANHMUC
             from TINTUC t
@@ -138,7 +138,7 @@ public class TinTucRepositoryImpl implements TinTucRepository {
              ResultSet rs = ps.executeQuery()) {
             while (rs.next()) {
                 list.add(
-                        new TinTucDanhMucDTO(
+                        new DanhMucTinTucDTO(
                                 rs.getInt("MATT"),
                                 rs.getString("TIEUDE"),
                                 rs.getString("TENDANHMUC")
@@ -154,8 +154,8 @@ public class TinTucRepositoryImpl implements TinTucRepository {
 //    danh mục.
 
     @Override
-    public List<TinTucDanhMucDTO> findAllWithNameDanhMucCuThe(String nameDanhMUC) throws SQLException {
-        List<TinTucDanhMucDTO> list = new ArrayList<>();
+    public List<DanhMucTinTucDTO> findAllWithNameDanhMucCuThe(String nameDanhMUC) throws SQLException {
+        List<DanhMucTinTucDTO> list = new ArrayList<>();
         String sql = """
         SELECT t.MATT, t.TIEUDE, t.NOIDUNGTT, d.TENDANHMUC
         FROM TINTUC t
@@ -172,7 +172,7 @@ public class TinTucRepositoryImpl implements TinTucRepository {
             try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
                     list.add(
-                            new TinTucDanhMucDTO(
+                            new DanhMucTinTucDTO(
                                     rs.getInt("MATT"),
                                     rs.getString("TIEUDE"),
                                     rs.getString("NOIDUNGTT"),
@@ -185,4 +185,8 @@ public class TinTucRepositoryImpl implements TinTucRepository {
 
         return list;
     }
+//    7. Lấy danh sách tin tức có tiêu đề chứa từ khóa "công nghệ"
+//    Câu lệnh kết hợp INNER JOIN với mệnh đề WHERE và toán tử LIKE để tìm
+//    các tin tức có tiêu đề chứa từ khóa cần tìm.
+//    public List<>
 }

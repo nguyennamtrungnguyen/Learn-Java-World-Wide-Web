@@ -1,7 +1,7 @@
 package vn.fit.nguyennamtrungnguyen.service;
 
+import vn.fit.nguyennamtrungnguyen.dto.DanhMucTinTucDTO;
 import vn.fit.nguyennamtrungnguyen.model.TinTuc;
-import vn.fit.nguyennamtrungnguyen.dto.TinTucDanhMucDTO;
 import vn.fit.nguyennamtrungnguyen.repository.TinTucRepository;
 import vn.fit.nguyennamtrungnguyen.repository.impl.TinTucRepositoryImpl;
 
@@ -41,11 +41,11 @@ public class TinTucService {
         return tinTucRepository.delete(maTT);
     }
 
-    public List<TinTucDanhMucDTO> findAllWithNameDanhMuc () throws SQLException{
+    public List<DanhMucTinTucDTO> findAllWithNameDanhMuc () throws SQLException{
         return tinTucRepository.findAllWithNameDanhMuc();
     }
 
-    public List<TinTucDanhMucDTO> findAllWithNameDanhMucCuThe(String nameDanhMUC) throws SQLException{
+    public List<DanhMucTinTucDTO> findAllWithNameDanhMucCuThe(String nameDanhMUC) throws SQLException{
         return tinTucRepository.findAllWithNameDanhMucCuThe(nameDanhMUC);
     }
 }
