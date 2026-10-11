@@ -52,4 +52,7 @@ public class TinTucService {
     public List<DanhMucTinTucDTO> findAllCoTieuDeChuaTuKhoaCongNghe() throws SQLException{
         return tinTucRepository.findAllCoTieuDeChuaTuKhoaCongNghe();
     }
+    public List<DanhMucTinTucDTO> lietKeCacTinTucThuocDanhMuc() throws SQLException{
+        return tinTucRepository.lietKeCacTinTucThuocDanhMuc();
+    }
 }

@@ -213,4 +213,31 @@ public class TinTucRepositoryImpl implements TinTucRepository {
         }
         return list;
     }
+
+//    8. Liệt kê các tin tức thuộc danh mục "Thời sự" hoặc "Kinh tế"
+//    Câu lệnh sử dụng INNER JOIN kết hợp với IN để lọc các tin tức thuộc một trong
+//    những danh mục được chỉ định.
+    @Override
+    public List<DanhMucTinTucDTO> lietKeCacTinTucThuocDanhMuc() throws SQLException{
+        List<DanhMucTinTucDTO> list = new ArrayList<>();
+        String sql = """
+                select t.MATT, t.TIEUDE, d.TENDANHMUC
+                from TINTUC t
+                inner join DANHMUC d on t.MADM = d.MADM
+                where d.TENDANHMUC in ('Thời sự', 'Kinh tế')
+                """;
+        try(Connection conn = DBConnection.getConnection();
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+        ){
+            while (rs.next()){
+                list.add(new DanhMucTinTucDTO(
+                        rs.getInt("MATT"),
+                        rs.getString("TIEUDE"),
+                        rs.getString("TENDANHMUC")
+                ));
+            }
+        }
+        return list;
+    }
 }

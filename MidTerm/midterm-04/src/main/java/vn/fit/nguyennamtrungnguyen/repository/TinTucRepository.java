@@ -31,5 +31,10 @@ public interface TinTucRepository {
     //    Câu lệnh kết hợp INNER JOIN với mệnh đề WHERE và toán tử LIKE để tìm
     //    các tin tức có tiêu đề chứa từ khóa cần tìm.
     List<DanhMucTinTucDTO> findAllCoTieuDeChuaTuKhoaCongNghe() throws SQLException;
+
+    //    8. Liệt kê các tin tức thuộc danh mục "Thời sự" hoặc "Kinh tế"
+    //    Câu lệnh sử dụng INNER JOIN kết hợp với IN để lọc các tin tức thuộc một trong
+    //    những danh mục được chỉ định.
+    List<DanhMucTinTucDTO> lietKeCacTinTucThuocDanhMuc() throws SQLException;
 }
 

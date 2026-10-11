@@ -108,4 +108,11 @@ public class TinTucController {
                 .ok(tinTucService.findAllCoTieuDeChuaTuKhoaCongNghe())
                 .build();
     }
+    @GET
+    @Path("/lietKeCacTinTucThuocDanhMuc")
+    public Response getCacTinTucThuocDanhMuc() throws SQLException {
+        return Response
+                .ok(tinTucService.lietKeCacTinTucThuocDanhMuc())
+                .build();
+    }
 }
