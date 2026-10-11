@@ -1,5 +1,6 @@
 package vn.fit.nguyennamtrungnguyen.service;
 
+import vn.fit.nguyennamtrungnguyen.dto.DanhMucTinTucDTO;
 import vn.fit.nguyennamtrungnguyen.dto.ThongKeDanhMucDTO;
 import vn.fit.nguyennamtrungnguyen.model.DanhMuc;
 import vn.fit.nguyennamtrungnguyen.model.TinTuc;
@@ -54,5 +55,9 @@ public class DanhMucService {
 
     public List<ThongKeDanhMucDTO> findDanhMucCoNhieuTinTucNhat() throws SQLException {
         return danhMucRepository.findDanhMucCoNhieuTinTucNhat();
+    }
+
+    public List<DanhMucTinTucDTO> findAllDanhMuc() throws SQLException {
+        return danhMucRepository.findAllDanhMuc();
     }
 }

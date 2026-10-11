@@ -1,6 +1,7 @@
 
 package vn.fit.nguyennamtrungnguyen.repository.impl;
 
+import vn.fit.nguyennamtrungnguyen.dto.DanhMucTinTucDTO;
 import vn.fit.nguyennamtrungnguyen.model.DanhMuc;
 import vn.fit.nguyennamtrungnguyen.dto.ThongKeDanhMucDTO;
 import vn.fit.nguyennamtrungnguyen.repository.DanhMucRepository;
@@ -215,12 +216,10 @@ public class DanhMucRepositoryImpl implements DanhMucRepository {
 
         return danhMucList;
     }
-//
+
 //    5. Tìm danh mục có số lượng bài viết tin tức nhiều nhất
 //    Câu lệnh sử dụng truy vấn con (Subquery) kết hợp với hàm MAX() để tìm ra
 //    danh mục đang sở hữu lượng tin tức lớn nhất trong hệ thống.
-
-
     @Override
     public List<ThongKeDanhMucDTO> findDanhMucCoNhieuTinTucNhat() throws SQLException {
         List<ThongKeDanhMucDTO> danhMucList = new ArrayList<>();
@@ -254,6 +253,35 @@ public class DanhMucRepositoryImpl implements DanhMucRepository {
             }
         }
 
+        return danhMucList;
+    }
+
+//    6. Lấy danh sách tất cả danh mục và các tin tức tương ứng, kể cả danh mục chưa
+//    có tin tức
+//    Câu lệnh sử dụng LEFT JOIN để hiển thị tất cả danh mục. Nếu danh mục chưa
+//    có tin tức thì các cột của bảng TINTUC sẽ có giá trị NULL.
+
+    @Override
+    public List<DanhMucTinTucDTO> findAllDanhMuc() throws SQLException {
+        List<DanhMucTinTucDTO> danhMucList = new ArrayList<>();
+        String sql = """
+                select d.MADM, d.TENDANHMUC, t.MATT, t.TIEUDE
+                from DANHMUC d
+                left join TINTUC t ON d.MADM = t.MADM
+                """;
+        try(Connection conn = DBConnection.getConnection();
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery()
+        ){
+            while (rs.next()){
+                danhMucList.add(new DanhMucTinTucDTO(
+                        rs.getInt("MADM"),
+                        rs.getString("MADM"),
+                        rs.getInt("MATT"),
+                        rs.getString("TIEUDE")
+                ));
+            }
+        }
         return danhMucList;
     }
 }

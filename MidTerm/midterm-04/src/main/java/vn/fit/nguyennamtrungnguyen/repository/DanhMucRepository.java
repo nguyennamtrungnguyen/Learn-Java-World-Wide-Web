@@ -1,5 +1,6 @@
 package vn.fit.nguyennamtrungnguyen.repository;
 
+import vn.fit.nguyennamtrungnguyen.dto.DanhMucTinTucDTO;
 import vn.fit.nguyennamtrungnguyen.model.DanhMuc;
 import vn.fit.nguyennamtrungnguyen.dto.ThongKeDanhMucDTO;
 
@@ -34,4 +35,6 @@ public interface DanhMucRepository {
     List<ThongKeDanhMucDTO> lietKeCacDanhMucSLTTTu3TroLen() throws SQLException;
 
     List<ThongKeDanhMucDTO> findDanhMucCoNhieuTinTucNhat() throws SQLException;
+
+    List<DanhMucTinTucDTO> findAllDanhMuc() throws SQLException;
 }

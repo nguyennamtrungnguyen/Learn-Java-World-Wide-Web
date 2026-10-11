@@ -115,4 +115,11 @@ public class DanhMucController {
                 .ok(danhMucService.findDanhMucCoNhieuTinTucNhat())
                 .build();
     }
+    @GET
+    @Path("findAllDanhMuc")
+    public Response getAllDanhMuc() throws SQLException {
+        return Response
+                .ok(danhMucService.findAllDanhMuc())
+                .build();
+    }
 }
