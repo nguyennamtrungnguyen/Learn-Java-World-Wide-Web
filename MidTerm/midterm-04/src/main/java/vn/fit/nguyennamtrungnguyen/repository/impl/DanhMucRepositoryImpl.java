@@ -188,5 +188,31 @@ public class DanhMucRepositoryImpl implements DanhMucRepository {
 //    GROUP BY d.MADM, d.TENDANHMUC
 //    HAVING COUNT(t.MATT) >= 3;
 
+    @Override
+    public List<ThongKeDanhMucDTO> lietKeCacDanhMucSLTTTu3TroLen() throws SQLException {
+        List<ThongKeDanhMucDTO> danhMucList = new ArrayList<>();
 
+        String sql = """
+                SELECT d.MADM, d.TENDANHMUC, COUNT(t.MATT) AS SOLUONG_TINTUC
+                FROM DANHMUC d
+                INNER JOIN TINTUC t ON d.MADM = t.MADM
+                GROUP BY d.MADM, d.TENDANHMUC
+                HAVING COUNT(t.MATT) >= 3
+                """;
+
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
+
+            while (rs.next()) {
+                danhMucList.add(new ThongKeDanhMucDTO(
+                        rs.getInt("MADM"),
+                        rs.getString("TENDANHMUC"),
+                        rs.getLong("SOLUONG_TINTUC")
+                ));
+            }
+        }
+
+        return danhMucList;
+    }
 }

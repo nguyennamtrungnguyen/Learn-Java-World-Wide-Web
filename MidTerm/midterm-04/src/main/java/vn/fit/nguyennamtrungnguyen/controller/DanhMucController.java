@@ -99,4 +99,12 @@ public class DanhMucController {
                 .ok(danhMucService.thongKeSoLuongTinTucTheoDanhMuc())
                 .build();
     }
+
+    @GET
+    @Path("thongketheosoluongtu3trolen")
+    public Response getAllWithSoLuongTinTucTu3TroLen() throws SQLException {
+        return Response
+                .ok(danhMucService.lietKeCacDanhMucSLTTTu3TroLen())
+                .build();
+    }
 }

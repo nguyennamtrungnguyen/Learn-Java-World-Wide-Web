@@ -31,4 +31,5 @@ public interface DanhMucRepository {
     List<ThongKeDanhMucDTO> thongKeSoLuongTinTucTheoDanhMuc() throws SQLException;
 
 
+    List<ThongKeDanhMucDTO> lietKeCacDanhMucSLTTTu3TroLen() throws SQLException;
 }
