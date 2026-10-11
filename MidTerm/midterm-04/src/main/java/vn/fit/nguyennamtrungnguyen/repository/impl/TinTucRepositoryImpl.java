@@ -154,29 +154,35 @@ public class TinTucRepositoryImpl implements TinTucRepository {
 //    danh mục.
 
     @Override
-    public List<TinTucDanhMucDTO> findAllWithNameDanhMucCuThe (String nameDanhMUC) throws SQLException{
+    public List<TinTucDanhMucDTO> findAllWithNameDanhMucCuThe(String nameDanhMUC) throws SQLException {
         List<TinTucDanhMucDTO> list = new ArrayList<>();
         String sql = """
-            select t.MATT, t.TIEUDE, t.NOIDUNGTT d.TENDANHMUC
-            from TINTUC t
-            inner join DANHMUC d ON t.MADM = d.MADM
-            where d.TENDANHMUC = ?
+        SELECT t.MATT, t.TIEUDE, t.NOIDUNGTT, d.TENDANHMUC
+        FROM TINTUC t
+        INNER JOIN DANHMUC d ON t.MADM = d.MADM
+        WHERE d.TENDANHMUC = ?
         """;
+
         try (Connection conn = DBConnection.getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql);
-             ResultSet rs = ps.executeQuery()) {
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            // Truyền tham số trước khi thực thi SQL
             ps.setString(1, nameDanhMUC);
-            while (rs.next()) {
-                list.add(
-                        new TinTucDanhMucDTO(
-                                rs.getInt("MATT"),
-                                rs.getString("TIEUDE"),
-                                rs.getString("NOIDUNGTT"),
-                                rs.getString("TENDANHMUC")
-                        )
-                );
+
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    list.add(
+                            new TinTucDanhMucDTO(
+                                    rs.getInt("MATT"),
+                                    rs.getString("TIEUDE"),
+                                    rs.getString("NOIDUNGTT"),
+                                    rs.getString("TENDANHMUC")
+                            )
+                    );
+                }
             }
         }
+
         return list;
     }
 }
