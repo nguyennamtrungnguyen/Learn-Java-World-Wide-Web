@@ -1,8 +1,25 @@
-package vn.fit.nguyennamtrungnguyen.dto;/**
- * @author Nguyễn Nam Trung Nguyên
- * @MSSV 23640731
- * @Class DHKTPM19ATT
- * @version 1.0
- * @since 10/12/2026
- */public class DepartmentEmployeeDTO {
+package vn.fit.nguyennamtrungnguyen.dto;
+
+import vn.fit.nguyennamtrungnguyen.model.Department;
+import vn.fit.nguyennamtrungnguyen.model.Employee;
+
+import java.util.List;
+
+public class DepartmentEmployeeDTO {
+    private Department department;
+    private List<Employee> employees;
+
+    public DepartmentEmployeeDTO(Department department, List<Employee> employees) {
+        this.department = department;
+        this.employees = employees;
+    }
+
+    public DepartmentEmployeeDTO() {
+    }
+
+    public Department getDepartment() { return department; }
+    public void setDepartment(Department department) { this.department = department; }
+
+    public List<Employee> getEmployees() { return employees; }
+    public void setEmployees(List<Employee> employees) { this.employees = employees; }
 }

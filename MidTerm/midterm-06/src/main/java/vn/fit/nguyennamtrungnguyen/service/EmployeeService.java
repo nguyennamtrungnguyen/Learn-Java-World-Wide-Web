@@ -1,16 +1,8 @@
-package vn.fit.nguyennamtrungnguyen.repository;
+package vn.fit.nguyennamtrungnguyen.service;
 
-import vn.fit.nguyennamtrungnguyen.dto.DepartmentEmployeeDTO;
-import vn.fit.nguyennamtrungnguyen.model.Department;
 import vn.fit.nguyennamtrungnguyen.model.Employee;
-import vn.fit.nguyennamtrungnguyen.util.DBConnection;
-
-import java.math.BigDecimal;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
+import vn.fit.nguyennamtrungnguyen.repository.EmployeeRepository;
+import java.sql.*;
 import java.util.List;
 
 /**
@@ -20,46 +12,34 @@ import java.util.List;
  * @Class DHKTPM19ATT
  * @since 10/12/2026
  */
-public class EmployeeRepository {
+public class EmployeeService {
+
+    private final EmployeeRepository employeeRepository = new EmployeeRepository();
 
     //    để lấy toàn bộ nhân viên.
     public List<Employee> findAll() {
-        List<Employee> list = new ArrayList<>();
-        String sql = """
-                select * from employees
-                """;
-
-        try (Connection conn = DBConnection.getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql);
-             ResultSet rs = ps.executeQuery()) {
-            while (rs.next()) {
-                list.add(new Employee(
-                        rs.getInt("id"),
-                        rs.getString("name"),
-                        rs.getInt("department_id"),
-                        rs.getBigDecimal("salary")
-                ));
-            }
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-
-        return list;
+       return employeeRepository.findAll();
     }
 
     //    để lấy một nhân viên theo mã nhân viên.
-    public Department findById(int id){
-        return null;
+    public Employee findById(int id){
+        return employeeRepository.findById(id);
+    }
+    public List<Employee> findByDateHire(Date date) {
+        return employeeRepository.findByDateHire(date);
     }
 
     //    để thêm nhân viên mới vào bảng employees.
-    public boolean save(Employee employee){
-        return true;
+    public boolean save(Employee employee) {
+        return employeeRepository.save(employee);
     }
 
-//    để truy vấn có liên kết giữa hai bảng departments và employees, lọc theo mã phòng ban và khoảng lương, đồng thời trả về thông tin Department kèm danh sách Employee.
-    public List<DepartmentEmployeeDTO> findByDepartmentAndSalaryRange(int departmentId, BigDecimal minSalary, BigDecimal maxSalary){
-        return null;
+    public boolean update( int id, Employee employee){
+        return employeeRepository.update(id, employee);
+    }
+
+    public boolean delete(int id){
+        return employeeRepository.delete(id);
     }
 
 }
