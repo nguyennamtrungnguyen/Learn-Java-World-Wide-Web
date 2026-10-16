@@ -22,23 +22,23 @@ import java.util.Map;
 @Path("/departments")
 public class DepartmentController {
     private final DepartmentService departmentService = new DepartmentService();
-//
-//    @GET
-//    @Path("/{departmentId}/employees")
-//    public Response getEmployees(@PathParam("departmentId") int departmentId,
-//                                 @QueryParam("minSalary") BigDecimal minSalary,
-//                                 @QueryParam("maxSalary") BigDecimal maxSalary) {
-//
-//        DepartmentEmployeeDTO result =
-//                departmentService.findEmployeesByDepartment(departmentId, minSalary, maxSalary);
-//
-//        if (result == null) {
-//            return Response.status(404)
-//                    .entity(Map.of("error", "Khong tim thay phong ban"))
-//                    .build();
-//        }
-//        return Response.ok(result).build();
-//    }
+
+    @GET
+    @Path("/{departmentId}/employees")
+    public Response getEmployees(@PathParam("departmentId") int departmentId,
+                                 @QueryParam("minSalary") BigDecimal minSalary,
+                                 @QueryParam("maxSalary") BigDecimal maxSalary) {
+
+        DepartmentEmployeeDTO result =
+                departmentService.findEmployeesByDepartment(departmentId, minSalary, maxSalary);
+
+        if (result == null) {
+            return Response.status(404)
+                    .entity(Map.of("error", "Khong tim thay phong ban"))
+                    .build();
+        }
+        return Response.ok(result).build();
+    }
 
     @GET
     @Path("/statistics")
