@@ -83,6 +83,8 @@ public class DepartmentRepository {
         }
         return list;
     }
+
+//    thống kê tổng hợp 02 bảng
     public List<DepartmentStatisticsDTO> getStatistics() {
         List<DepartmentStatisticsDTO> list = new ArrayList<>();
         String sql = """

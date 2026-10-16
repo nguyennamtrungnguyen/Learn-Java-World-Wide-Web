@@ -17,6 +17,16 @@ import java.util.List;
  */
 public class EmployeeRepository {
 
+    public Employee mapRow(ResultSet rs) throws SQLException {
+        return new Employee(
+                rs.getInt("id"),
+                rs.getString("name"),
+                rs.getInt("department_id"),
+                rs.getBigDecimal("salary"),
+                rs.getDate("hire_date")
+        );
+    }
+
     //    để lấy toàn bộ nhân viên.
     public List<Employee> findAll() {
         List<Employee> list = new ArrayList<>();
@@ -28,13 +38,7 @@ public class EmployeeRepository {
              PreparedStatement ps = conn.prepareStatement(sql);
              ResultSet rs = ps.executeQuery()) {
             while (rs.next()) {
-                list.add(new Employee(
-                        rs.getInt("id"),
-                        rs.getString("name"),
-                        rs.getInt("department_id"),
-                        rs.getBigDecimal("salary"),
-                        rs.getDate("hire_date")
-                ));
+                list.add(mapRow(rs));
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -57,13 +61,7 @@ public class EmployeeRepository {
             ps.setInt(1, id);
             try (ResultSet rs = ps.executeQuery()) {
                 if (rs.next()) {
-                    return new Employee(
-                            rs.getInt("id"),
-                            rs.getString("name"),
-                            rs.getInt("department_id"),
-                            rs.getBigDecimal("salary"),
-                            rs.getDate("hire_date")
-                    );
+                    return mapRow(rs);
                 }
             }
 
@@ -87,13 +85,7 @@ public class EmployeeRepository {
             ps.setDate(1,date);
             try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
-                    list.add(new Employee(
-                            rs.getInt("id"),
-                            rs.getString("name"),
-                            rs.getInt("department_id"),
-                            rs.getBigDecimal("salary"),
-                            rs.getDate("hire_date")
-                    ));
+                    list.add(mapRow(rs));
                 }
             }
 

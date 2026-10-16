@@ -42,7 +42,7 @@ public class EmployeeController {
     @GET
     @Path("/hire_date/{date}")
     public Response findByDate(@PathParam("date") String date) {
-        Date hire_date = Date.valueOf(LocalDate.parse(date));
+        Date hire_date = Date.valueOf(date);
         return Response.ok(employeeService.findByDateHire(hire_date)).build();
     }
 
