@@ -1,0 +1,48 @@
+package iuh.fit.eshop.controller;
+
+import iuh.fit.eshop.domain.PaymentMethod;
+import iuh.fit.eshop.dto.CheckoutForm;
+import iuh.fit.eshop.model.Order;
+import iuh.fit.eshop.service.CartService;
+import iuh.fit.eshop.service.OrderService;
+import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+@Controller
+@RequestMapping("/checkout")
+@RequiredArgsConstructor
+public class CheckoutController {
+    private final CartService cart;
+    private final OrderService orderService;
+    @GetMapping
+    public String form(Model model) {
+        if (cart.isEmpty()) return "redirect:/cart";
+        model.addAttribute("form", new CheckoutForm());
+        model.addAttribute("cart", cart);
+        return "checkout/form";
+    }
+    @PostMapping
+    public String submit(@Valid @ModelAttribute("form") CheckoutForm form, BindingResult result,
+                         Model model, RedirectAttributes ra) {
+        if (result.hasErrors()) {
+            model.addAttribute("cart", cart);
+            return "checkout/form";
+        }
+        try {
+            Order order = orderService.placeOrder(form, cart);
+            cart.clear();
+            if (order.getPaymentMethod() == PaymentMethod.BANKING) {
+                return "redirect:/orders/" + order.getId() + "/payment";
+            }
+            ra.addFlashAttribute("message", "Đặt hàng thành công! Mã đơn #" + order.getId());
+            return "redirect:/orders/" + order.getId();
+        } catch (IllegalStateException e) {
+            ra.addFlashAttribute("error", e.getMessage());
+            return "redirect:/cart";
+        }
+    }
+}

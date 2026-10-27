@@ -40,6 +40,11 @@
                                  th:text="${#numbers.formatDecimal(p.price, 0, 'POINT', 0, 'COMMA')} + ' ₫'"></div>
                             <div class="mt-auto">
                                 <!-- Nút "Thêm vào giỏ" sẽ bổ sung ở Phần 2 -->
+                                <form th:action="@{/cart/add}" method="post" class="d-inline">
+                                    <input type="hidden" name="productId" th:value="${p.id}">
+                                    <button class="btn btn-sm btn-primary" th:disabled="${p.quantity == 0}">�Thêm vào giỏ</button>
+                                </form>
+                                <a class="btn btn-sm btn-outline-primary" th:href="@{/products/{id}(id=${p.id})}">Chi tiết</a>
                                 <a class="btn btn-sm btn-outline-primary"
                                    th:href="@{/products/{id}(id=${p.id})}">Chi tiết</a>
                             </div>
