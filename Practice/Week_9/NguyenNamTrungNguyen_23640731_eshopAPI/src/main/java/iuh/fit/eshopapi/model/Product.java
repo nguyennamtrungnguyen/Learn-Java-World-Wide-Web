@@ -12,26 +12,25 @@ public class Product {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "product_id")
-    private Integer productId;
+    private Long id;
 
-    @Column(name = "name")
+    @Column(nullable = false, length = 150)
     private String name;
 
-    @Column(name = "description")
+    @Column(length = 500)
     private String description;
 
-    @Column(name = "price")
+    @Column(nullable = false, precision = 15, scale = 2)
     private BigDecimal price;
 
-    @Column(name = "quantity")
+    @Column(nullable = false)
     private Integer quantity;
 
-    @Column(name = "image_url")
+    @Column(name = "image_url", length = 500)
     private String imageUrl;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "category_id")
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "category_id", nullable = false)
     private Category category;
 
     @CreationTimestamp
@@ -41,12 +40,8 @@ public class Product {
     public Product() {
     }
 
-    public Integer getProductId() {
-        return productId;
-    }
-
-    public void setProductId(Integer productId) {
-        this.productId = productId;
+    public Long getId() {
+        return id;
     }
 
     public String getName() {

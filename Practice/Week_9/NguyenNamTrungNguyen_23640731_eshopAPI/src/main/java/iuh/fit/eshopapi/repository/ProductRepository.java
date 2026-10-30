@@ -1,39 +1,39 @@
 package iuh.fit.eshopapi.repository;
 
 import iuh.fit.eshopapi.model.Product;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
+import iuh.fit.eshopapi.response.CategoryStatsResponse;
+import org.springframework.data.jpa.repository.*;
 import org.springframework.data.repository.query.Param;
-import org.springframework.stereotype.Repository;
+import org.springframework.data.domain.*;
 
 import java.math.BigDecimal;
 import java.util.List;
 
-@Repository
-public interface ProductRepository extends JpaRepository<Product, Long> {
+public interface ProductRepository
+        extends JpaRepository<Product, Long> {
 
-    // Kiểm tra danh mục có sản phẩm hay không
     boolean existsByCategoryId(Long categoryId);
 
-    // Lấy danh sách sản phẩm theo danh mục
     List<Product> findByCategoryId(Long categoryId);
 
-    // Tìm kiếm theo từ khóa, danh mục và khoảng giá
+    @Query(
+            value = "select count(*) > 0 " +
+                    "from order_detail where product_id = :id",
+            nativeQuery = true
+    )
+    boolean existsInOrderDetail(@Param("id") Long id);
+
     @Query("""
-        SELECT p
-        FROM Product p
-        WHERE
-            (:keyword IS NULL
-                OR LOWER(p.name) LIKE LOWER(CONCAT('%', :keyword, '%')))
-        AND (:categoryId IS NULL
-                OR p.category.categoryId = :categoryId)
-        AND (:minPrice IS NULL
-                OR p.price >= :minPrice)
-        AND (:maxPrice IS NULL
-                OR p.price <= :maxPrice)
-        """)
+        select p from Product p
+        where (:keyword is null
+            or lower(p.name) like lower(concat('%', :keyword, '%')))
+        and (:categoryId is null
+            or p.category.id = :categoryId)
+        and (:minPrice is null
+            or p.price >= :minPrice)
+        and (:maxPrice is null
+            or p.price <= :maxPrice)
+    """)
     Page<Product> search(
             @Param("keyword") String keyword,
             @Param("categoryId") Long categoryId,
@@ -42,7 +42,17 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
             Pageable pageable
     );
 
-    boolean existsByCategory_CategoryId(Integer id);
-
-    List<Product> findByCategory_CategoryId(Integer id);
+    @Query("""
+        select new iuh.fit.eshopapi.response.CategoryStatsResponse(
+            c.id,
+            c.name,
+            count(p.id),
+            coalesce(sum(p.price * p.quantity), 0)
+        )
+        from Category c
+        left join Product p on p.category = c
+        group by c.id, c.name
+        order by c.name
+    """)
+    List<CategoryStatsResponse> getCategoryStats();
 }

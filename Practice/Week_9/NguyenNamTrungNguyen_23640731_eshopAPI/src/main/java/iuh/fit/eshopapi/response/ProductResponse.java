@@ -4,13 +4,13 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 public record ProductResponse(
-        Integer id,
+        Long id,
         String name,
         String description,
         BigDecimal price,
         Integer quantity,
         String imageUrl,
-        Integer categoryId,
+        Long categoryId,
         String categoryName,
         LocalDateTime createdAt
 ) {}

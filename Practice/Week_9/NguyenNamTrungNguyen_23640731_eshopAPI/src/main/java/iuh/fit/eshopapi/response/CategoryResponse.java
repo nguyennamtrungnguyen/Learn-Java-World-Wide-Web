@@ -1,7 +1,8 @@
 package iuh.fit.eshopapi.response;
 
+
 public record CategoryResponse(
-        Integer id,
+        Long id,
         String name,
         String description
 ) {}

@@ -1,13 +1,16 @@
+
 package iuh.fit.eshopapi.service;
 
 import iuh.fit.eshopapi.exception.ConflictException;
 import iuh.fit.eshopapi.exception.NotFoundException;
 import iuh.fit.eshopapi.model.Category;
-import iuh.fit.eshopapi.model.Product;
 import iuh.fit.eshopapi.repository.CategoryRepository;
 import iuh.fit.eshopapi.repository.ProductRepository;
 import iuh.fit.eshopapi.request.CategoryRequest;
 import iuh.fit.eshopapi.response.CategoryResponse;
+import iuh.fit.eshopapi.response.CategoryStatsResponse;
+import iuh.fit.eshopapi.response.ProductResponse;
+
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -15,95 +18,146 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 @Service
+@Transactional
 public class CategoryService {
 
-    private final CategoryRepository categoryRepository;
-    private final ProductRepository productRepository;
+    private final CategoryRepository cats;
+    private final ProductRepository products;
 
     public CategoryService(
-            CategoryRepository categoryRepository,
-            ProductRepository productRepository) {
-        this.categoryRepository = categoryRepository;
-        this.productRepository = productRepository;
+            CategoryRepository cats,
+            ProductRepository products
+    ) {
+        this.cats = cats;
+        this.products = products;
     }
 
-    private Category findCategory(Long id) {
-        return categoryRepository.findById(id).orElseThrow(() -> new NotFoundException("Không tìm thấy danh mục ID: " + id));
-    }
-
-    private CategoryResponse toResponse(Category category) {
+    // Entity -> DTO
+    private CategoryResponse dto(Category c) {
         return new CategoryResponse(
-                category.getCategoryId(),
-                category.getName(),
-                category.getDescription()
+                c.getId(),
+                c.getName(),
+                c.getDescription()
         );
     }
 
-    // C1: Danh sách danh mục, sắp xếp theo tên tăng dần
+    // C1: Lấy tất cả danh mục
     @Transactional(readOnly = true)
     public List<CategoryResponse> findAll() {
-        return categoryRepository
-                .findAll(Sort.by(Sort.Direction.ASC, "name"))
+        return cats.findAll(
+                        Sort.by("name").ascending()
+                )
                 .stream()
-                .map(this::toResponse)
+                .map(this::dto)
                 .toList();
     }
 
-    // C2: Chi tiết danh mục
+    // C2: Lấy danh mục theo ID
     @Transactional(readOnly = true)
     public CategoryResponse findById(Long id) {
-        return toResponse(findCategory(id));
+
+        Category c = cats.findById(id)
+                .orElseThrow(() ->
+                        new NotFoundException(
+                                "Không tìm thấy danh mục id = " + id
+                        )
+                );
+
+        return dto(c);
     }
 
     // C3: Thêm danh mục
-    @Transactional
-    public CategoryResponse create(CategoryRequest request) {
-        if (categoryRepository.existsByNameIgnoreCase(request.name().trim())) {
-            throw new ConflictException("Tên danh mục đã tồn tại");
+    public CategoryResponse create(CategoryRequest r) {
+
+        if (cats.existsByNameIgnoreCase(r.name().trim())) {
+            throw new ConflictException(
+                    "Tên danh mục đã tồn tại"
+            );
         }
 
-        Category category = new Category();
-        category.setName(request.name().trim());
-        category.setDescription(request.description());
+        Category c = new Category(
+                r.name().trim(),
+                r.description()
+        );
 
-        return toResponse(categoryRepository.save(category));
+        return dto(cats.save(c));
     }
 
     // C4: Cập nhật danh mục
-    @Transactional
     public CategoryResponse update(
-            Long id, CategoryRequest request) {
-        Category category = findCategory(id);
+            Long id,
+            CategoryRequest r
+    ) {
 
-        if (categoryRepository.existsByNameIgnoreCaseAndCategoryIdNot(
-                request.name().trim(), id)) {
+        Category c = cats.findById(id)
+                .orElseThrow(() ->
+                        new NotFoundException(
+                                "Không tìm thấy danh mục id = " + id
+                        )
+                );
+
+        if (cats.existsByNameIgnoreCaseAndIdNot(
+                r.name().trim(), id
+        )) {
             throw new ConflictException(
-                    "Tên danh mục đã tồn tại ở danh mục khác");
+                    "Tên danh mục đã được sử dụng"
+            );
         }
 
-        category.setName(request.name().trim());
-        category.setDescription(request.description());
+        c.setName(r.name().trim());
+        c.setDescription(r.description());
 
-        return toResponse(categoryRepository.save(category));
+        return dto(cats.save(c));
     }
 
-    // C5: Xóa danh mục, không cho xóa nếu còn sản phẩm
-    @Transactional
+    // C5: Xóa danh mục
     public void delete(Long id) {
-        Category category = findCategory(id);
 
-        if (productRepository.existsByCategory_CategoryId(Math.toIntExact(id))) {
+        Category c = cats.findById(id)
+                .orElseThrow(() ->
+                        new NotFoundException(
+                                "Không tìm thấy danh mục id = " + id
+                        )
+                );
+
+        if (products.existsByCategoryId(id)) {
             throw new ConflictException(
-                    "Không thể xóa danh mục đang có sản phẩm");
+                    "Không thể xoá danh mục đang có sản phẩm"
+            );
         }
 
-        categoryRepository.delete(category);
+        cats.delete(c);
     }
 
-    // C6: Danh sách sản phẩm theo danh mục
+    // C6: Lấy danh sách sản phẩm theo danh mục
     @Transactional(readOnly = true)
-    public List<Product> findProducts(Long id) {
-        findCategory(id);
-        return productRepository.findByCategory_CategoryId(Math.toIntExact(id));
+    public List<ProductResponse> findProducts(Long id) {
+
+        if (!cats.existsById(id)) {
+            throw new NotFoundException(
+                    "Không tìm thấy danh mục id = " + id
+            );
+        }
+
+        return products.findByCategoryId(id)
+                .stream()
+                .map(p -> new ProductResponse(
+                        p.getId(),
+                        p.getName(),
+                        p.getDescription(),
+                        p.getPrice(),
+                        p.getQuantity(),
+                        p.getImageUrl(),
+                        p.getCategory().getId(),
+                        p.getCategory().getName(),
+                        p.getCreatedAt()
+                ))
+                .toList();
+    }
+
+    // N3: Thống kê danh mục
+    @Transactional(readOnly = true)
+    public List<CategoryStatsResponse> stats() {
+        return products.getCategoryStats();
     }
 }
