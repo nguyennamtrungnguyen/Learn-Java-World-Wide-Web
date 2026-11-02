@@ -43,6 +43,7 @@ public interface ProductRepository
     );
 
     @Query("""
+        select new com.example.eshopapi.dto.CategoryStatsResponse(
         select new iuh.fit.eshopapi.response.CategoryStatsResponse(
             c.id,
             c.name,

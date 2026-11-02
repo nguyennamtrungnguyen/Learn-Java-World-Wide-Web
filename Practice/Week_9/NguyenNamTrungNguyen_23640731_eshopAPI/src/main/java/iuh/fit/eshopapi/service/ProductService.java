@@ -1,4 +1,5 @@
 package iuh.fit.eshopapi.service;
+import org.springframework.transaction.annotation.Transactional;
 
 import iuh.fit.eshopapi.exception.ConflictException;
 import iuh.fit.eshopapi.exception.NotFoundException;
@@ -45,6 +46,7 @@ public class ProductService {
 
     // Entity -> DTO
     private ProductResponse dto(Product p) {
+
         return new ProductResponse(
                 p.getId(),
                 p.getName(),
@@ -60,6 +62,7 @@ public class ProductService {
 
     // Tìm danh mục theo ID
     private Category category(Long id) {
+
         return cats.findById(id)
                 .orElseThrow(() ->
                         new NotFoundException(
@@ -150,6 +153,7 @@ public class ProductService {
     // Lấy sản phẩm theo ID
     @Transactional(readOnly = true)
     public ProductResponse one(Long id) {
+
         Product p = products.findById(id)
                 .orElseThrow(() ->
                         new NotFoundException(
@@ -162,8 +166,11 @@ public class ProductService {
 
     // Thêm sản phẩm
     public ProductResponse create(ProductRequest r) {
+
         Product p = new Product();
+
         apply(p, r);
+
         return dto(products.save(p));
     }
 
@@ -172,6 +179,7 @@ public class ProductService {
             Long id,
             ProductRequest r
     ) {
+
         Product p = products.findById(id)
                 .orElseThrow(() ->
                         new NotFoundException(
@@ -180,21 +188,25 @@ public class ProductService {
                 );
 
         apply(p, r);
+
         return dto(products.save(p));
     }
 
     // Gán dữ liệu từ Request vào Entity
     private void apply(Product p, ProductRequest r) {
+
         p.setName(r.name().trim());
         p.setDescription(r.description());
         p.setPrice(r.price());
         p.setQuantity(r.quantity());
         p.setImageUrl(r.imageUrl());
+
         p.setCategory(category(r.categoryId()));
     }
 
     // Xóa sản phẩm
     public void delete(Long id) {
+
         Product p = products.findById(id)
                 .orElseThrow(() ->
                         new NotFoundException(
