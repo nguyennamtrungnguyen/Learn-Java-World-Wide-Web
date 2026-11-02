@@ -1,0 +1,40 @@
+### ================================
+### PRODUCT API
+### ================================
+
+### 1. Lấy tất cả sản phẩm
+GET http://localhost:8080/api/products
+Accept: application/json
+
+### 2. Lấy sản phẩm theo ID
+GET http://localhost:8080/api/products/1
+Accept: application/json
+
+### 3. Thêm sản phẩm
+POST http://localhost:8080/api/products
+Content-Type: application/json
+
+{
+  "name": "ASUS TUF Gaming F15",
+  "description": "Laptop gaming ASUS",
+  "price": 25000000,
+  "quantity": 10,
+  "imageUrl": "https://example.com/asus-tuf.jpg",
+  "categoryId": 1
+}
+
+### 4. Cập nhật sản phẩm
+PUT http://localhost:8080/api/products/1
+Content-Type: application/json
+
+{
+  "name": "ASUS TUF Gaming F15 Updated",
+  "description": "Laptop gaming ASUS phiên bản mới",
+  "price": 27000000,
+  "quantity": 15,
+  "imageUrl": "https://example.com/asus-tuf-new.jpg",
+  "categoryId": 1
+}
+
+### 5. Xóa sản phẩm
+DELETE http://localhost:8080/api/products/1

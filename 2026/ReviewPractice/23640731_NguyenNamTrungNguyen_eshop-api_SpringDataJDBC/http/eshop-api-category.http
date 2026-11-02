@@ -1,0 +1,40 @@
+### ================================
+### CATEGORY API
+### ================================
+
+### 1. Lấy tất cả danh mục
+GET http://localhost:8080/api/categories
+Accept: application/json
+
+### 2. Lấy danh mục theo ID
+GET http://localhost:8080/api/categories/1
+Accept: application/json
+
+### 3. Thêm danh mục
+POST http://localhost:8080/api/categories
+Content-Type: application/json
+
+{
+  "name": "Laptop",
+  "description": "Các sản phẩm laptop"
+}
+
+### 4. Cập nhật danh mục
+PUT http://localhost:8080/api/categories/1
+Content-Type: application/json
+
+{
+  "name": "Laptop Gaming",
+  "description": "Laptop dành cho gaming"
+}
+
+### 5. Lấy sản phẩm thuộc danh mục
+GET http://localhost:8080/api/categories/1/products
+Accept: application/json
+
+### 6. Thống kê danh mục
+GET http://localhost:8080/api/categories/stats
+Accept: application/json
+
+### 7. Xóa danh mục
+DELETE http://localhost:8080/api/categories/1
