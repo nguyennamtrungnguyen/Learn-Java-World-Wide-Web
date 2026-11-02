@@ -1,0 +1,98 @@
+### PRODUCT API TEST
+@host = http://localhost:8080
+@productId = 1
+@categoryId = 1
+
+### ==========================================
+### P1 - GET ALL PRODUCTS
+### ==========================================
+GET {{host}}/api/products
+Accept: application/json
+
+
+### ==========================================
+### P1 - SEARCH BY KEYWORD
+### ==========================================
+GET {{host}}/api/products?keyword=samsung
+Accept: application/json
+
+
+### ==========================================
+### P1 - FILTER BY CATEGORY AND MIN PRICE
+### ==========================================
+GET {{host}}/api/products?categoryId={{categoryId}}&minPrice=1000000&sort=price,desc
+Accept: application/json
+
+
+### ==========================================
+### P1 - FILTER BY PRICE RANGE AND PAGINATION
+### ==========================================
+GET {{host}}/api/products?minPrice=1000000&maxPrice=5000000&page=0&size=5&sort=id,asc
+Accept: application/json
+
+
+### ==========================================
+### P1 - GET PAGE 2
+### ==========================================
+GET {{host}}/api/products?page=1&size=10
+Accept: application/json
+
+
+### ==========================================
+### P1 - INVALID PAGE PARAMETER (EXPECT 400)
+### ==========================================
+GET {{host}}/api/products?page=abc
+Accept: application/json
+
+
+### ==========================================
+### P2 - GET PRODUCT BY ID
+### ==========================================
+GET {{host}}/api/products/{{productId}}
+Accept: application/json
+
+
+### ==========================================
+### P3 - CREATE PRODUCT
+### categoryId phải tồn tại
+### ==========================================
+POST {{host}}/api/products
+Content-Type: application/json
+Accept: application/json
+
+{
+  "name": "Test Product",
+  "description": "Product created for API testing",
+  "price": 1500000,
+  "quantity": 10,
+  "imageUrl": "https://example.com/test-product.jpg",
+  "category": {
+    "id": {{categoryId}}
+  }
+}
+
+
+### ==========================================
+### P4 - UPDATE PRODUCT
+### ==========================================
+PUT {{host}}/api/products/{{productId}}
+Content-Type: application/json
+Accept: application/json
+
+{
+  "name": "Updated Test Product",
+  "description": "Product updated for API testing",
+  "price": 1800000,
+  "quantity": 15,
+  "imageUrl": "https://example.com/updated-product.jpg",
+  "category": {
+    "id": {{categoryId}}
+  }
+}
+
+
+### ==========================================
+### P5 - DELETE PRODUCT
+### ==========================================
+DELETE {{host}}/api/products/{{productId}}
+Accept: application/json

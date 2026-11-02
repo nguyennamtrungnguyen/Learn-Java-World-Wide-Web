@@ -1,0 +1,64 @@
+### CATEGORY API TEST
+@host = http://localhost:8080
+@categoryId = 1
+
+### ==========================================
+### C1 - GET ALL CATEGORIES
+### ==========================================
+GET {{host}}/api/categories
+Accept: application/json
+
+
+### ==========================================
+### C2 - GET CATEGORY BY ID
+### ==========================================
+GET {{host}}/api/categories/{{categoryId}}
+Accept: application/json
+
+
+### ==========================================
+### C3 - CREATE CATEGORY
+### ==========================================
+POST {{host}}/api/categories
+Content-Type: application/json
+Accept: application/json
+
+{
+  "name": "Test Category",
+  "description": "Category created for API testing"
+}
+
+
+### ==========================================
+### C4 - UPDATE CATEGORY
+### ==========================================
+PUT {{host}}/api/categories/{{categoryId}}
+Content-Type: application/json
+Accept: application/json
+
+{
+  "name": "Updated Category",
+  "description": "Category updated for API testing"
+}
+
+
+### ==========================================
+### C5 - DELETE CATEGORY
+### Chỉ chạy nếu danh mục không có sản phẩm
+### ==========================================
+DELETE {{host}}/api/categories/{{categoryId}}
+Accept: application/json
+
+
+### ==========================================
+### C6 - GET PRODUCTS BY CATEGORY
+### ==========================================
+GET {{host}}/api/categories/{{categoryId}}/products
+Accept: application/json
+
+
+### ==========================================
+### N3 - CATEGORY STATISTICS
+### ==========================================
+GET {{host}}/api/categories/stats
+Accept: application/json
