@@ -1,5 +1,6 @@
 package iuh.fit.controller;
 
+import iuh.fit.dto.CategoryProductDTO;
 import iuh.fit.dto.CategoryStats;
 import iuh.fit.model.Category;
 import iuh.fit.model.Product;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * @author Nguyễn Nam Trung Nguyên
@@ -20,7 +22,7 @@ import java.util.List;
  * @since 11/2/2026
  */
 @RestController
-@RequestMapping("/api/categories")
+@RequestMapping("/categories")
 @RequiredArgsConstructor
 public class CategoryController {
 
@@ -33,7 +35,7 @@ public class CategoryController {
     }
 
     @GetMapping("/{id}")
-    public Category findById(@PathVariable Long id) {
+    public Optional<Category> findById(@PathVariable Long id) {
         return categoryService.findById(id);
     }
 
@@ -69,5 +71,10 @@ public class CategoryController {
     @GetMapping("/stats")
     public List<CategoryStats> getStats() {
         return categoryService.getStats();
+    }
+
+    @GetMapping("/category-products")
+    public List<CategoryProductDTO> findProductByCategoryPrice() {
+        return productService.findProductByCategoryPrice();
     }
 }

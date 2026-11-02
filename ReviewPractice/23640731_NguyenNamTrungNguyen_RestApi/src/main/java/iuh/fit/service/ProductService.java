@@ -1,28 +1,18 @@
+
 package iuh.fit.service;
 
+import iuh.fit.dto.CategoryProductDTO;
 import iuh.fit.model.Category;
 import iuh.fit.model.Product;
 import iuh.fit.repository.CategoryRepository;
 import iuh.fit.repository.ProductRepository;
+
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import java.math.BigDecimal;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
-/**
- * @author Nguyễn Nam Trung Nguyên
- * @version 1.0
- * @MSSV 23640731
- * @Class DHKTPM19ATT
- * @since 11/2/2026
- */
 @Service
 @RequiredArgsConstructor
 @Transactional
@@ -31,74 +21,52 @@ public class ProductService {
     private final ProductRepository productRepository;
     private final CategoryRepository categoryRepository;
 
-    public Page<Product> search(
-            String keyword,
-            Long categoryId,
-            BigDecimal minPrice,
-            BigDecimal maxPrice,
-            int page,
-            int size,
-            String sort
-    ) {
-        if (page < 0 || size <= 0) {
-            throw new IllegalArgumentException("Page hoặc size không hợp lệ");
-        }
-
-        if (minPrice != null && maxPrice != null
-                && minPrice.compareTo(maxPrice) > 0) {
-            throw new IllegalArgumentException("minPrice phải nhỏ hơn maxPrice");
-        }
-
-        String[] sortParts = sort.split(",");
-        String field = sortParts[0];
-
-        Set<String> allowedFields =
-                Set.of("id", "name", "price", "quantity", "createdAt");
-
-        if (!allowedFields.contains(field)) {
-            throw new IllegalArgumentException("Trường sắp xếp không hợp lệ");
-        }
-
-        Sort.Direction direction = sortParts.length > 1
-                ? Sort.Direction.fromString(sortParts[1])
-                : Sort.Direction.ASC;
-
-        Pageable pageable = PageRequest.of(
-                page, size, Sort.by(direction, field)
-        );
-
-        return productRepository.search(
-                keyword, categoryId, minPrice, maxPrice, pageable
-        );
+    // 1. Lấy tất cả sản phẩm
+    public List<Product> findAll() {
+        return productRepository.findAll();
     }
 
+    // 2. Tìm sản phẩm theo ID
     public Product findById(Long id) {
         return getProduct(id);
     }
 
+    // 3. Thêm sản phẩm
     public Product create(Product product) {
+
+        if (product.getCategory() == null ||
+                product.getCategory().getId() == null) {
+            throw new RuntimeException("Vui lòng chọn Category");
+        }
+
         Long categoryId = product.getCategory().getId();
 
         Category category = categoryRepository.findById(categoryId)
                 .orElseThrow(() ->
-                        new RuntimeException("Không tìm thấy danh mục")
+                        new RuntimeException("Không tìm thấy Category")
                 );
 
         product.setId(null);
         product.setCategory(category);
-        product.setCreatedAt(null);
 
         return productRepository.save(product);
     }
 
+    // 4. Cập nhật sản phẩm
     public Product update(Long id, Product request) {
+
         Product product = getProduct(id);
+
+        if (request.getCategory() == null ||
+                request.getCategory().getId() == null) {
+            throw new RuntimeException("Vui lòng chọn Category");
+        }
 
         Long categoryId = request.getCategory().getId();
 
         Category category = categoryRepository.findById(categoryId)
                 .orElseThrow(() ->
-                        new RuntimeException("Không tìm thấy danh mục")
+                        new RuntimeException("Không tìm thấy Category")
                 );
 
         product.setName(request.getName());
@@ -111,24 +79,55 @@ public class ProductService {
         return productRepository.save(product);
     }
 
+    // 5. Xóa sản phẩm
     public void delete(Long id) {
         Product product = getProduct(id);
         productRepository.delete(product);
-        productRepository.flush();
     }
 
+    // 6. Tìm sản phẩm theo Category
+    public List<Product> findByCategoryId(Long categoryId) {
+
+        if (!categoryRepository.existsById(categoryId)) {
+            throw new RuntimeException("Không tìm thấy Category");
+        }
+
+        return productRepository.findByCategoryId(categoryId);
+    }
+
+    // 7. Lấy sản phẩm giá >= 1 triệu và gom theo Category
+    public List<CategoryProductDTO> findProductByCategoryPrice() {
+
+        List<Product> products =
+                productRepository.findProductByCategoryPrice();
+
+        Map<Long, CategoryProductDTO> map = new LinkedHashMap<>();
+
+        for (Product p : products) {
+
+            Category category = p.getCategory();
+            Long categoryId = category.getId();
+
+            // Nếu Category chưa có thì tạo mới
+            if (!map.containsKey(categoryId)) {
+                map.put(
+                        categoryId,
+                        new CategoryProductDTO(category, new ArrayList<>())
+                );
+            }
+
+            // Thêm Product vào danh sách của Category
+            map.get(categoryId).getProducts().add(p);
+        }
+
+        return new ArrayList<>(map.values());
+    }
+
+    // Hàm dùng chung để tìm Product
     private Product getProduct(Long id) {
         return productRepository.findById(id)
                 .orElseThrow(() ->
                         new RuntimeException("Không tìm thấy sản phẩm")
                 );
-    }
-
-    public List<Product> findByCategoryId(Long categoryId) {
-        if (!categoryRepository.existsById(categoryId)) {
-            throw new RuntimeException("Không tìm thấy danh mục");
-        }
-
-        return productRepository.findByCategoryId(categoryId);
     }
 }

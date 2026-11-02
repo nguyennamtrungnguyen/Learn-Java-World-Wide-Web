@@ -3,7 +3,6 @@ package iuh.fit.eshopapi.repository;
 import iuh.fit.eshopapi.model.Product;
 import org.springframework.data.jdbc.repository.query.Query;
 import org.springframework.data.repository.ListCrudRepository;
-
 import java.util.List;
 
 /**
@@ -13,6 +12,7 @@ import java.util.List;
  * @Class DHKTPM19ATT
  * @since 11/2/2026
  */
+
 public interface ProductRepository extends ListCrudRepository<Product, Long> {
 
     // Kiểm tra danh mục có sản phẩm hay không

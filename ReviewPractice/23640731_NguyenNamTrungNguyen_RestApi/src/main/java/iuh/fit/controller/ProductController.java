@@ -1,72 +1,79 @@
+
 package iuh.fit.controller;
 
+import iuh.fit.dto.CategoryProductDTO;
 import iuh.fit.model.Product;
 import iuh.fit.service.ProductService;
+
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.math.BigDecimal;
 import java.net.URI;
-
-/**
- * @author Nguyễn Nam Trung Nguyên
- * @version 1.0
- * @MSSV 23640731
- * @Class DHKTPM19ATT
- * @since 11/2/2026
- */
-
+import java.util.List;
 
 @RestController
-@RequestMapping("/api/products")
+@RequestMapping("/products")
 @RequiredArgsConstructor
 public class ProductController {
 
     private final ProductService productService;
 
+    // 1. Lấy tất cả sản phẩm
     @GetMapping
-    public Page<Product> search(
-            @RequestParam(required = false) String keyword,
-            @RequestParam(required = false) Long categoryId,
-            @RequestParam(required = false) BigDecimal minPrice,
-            @RequestParam(required = false) BigDecimal maxPrice,
-            @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "10") int size,
-            @RequestParam(defaultValue = "id,asc") String sort
-    ) {
-        return productService.search(
-                keyword, categoryId, minPrice, maxPrice,
-                page, size, sort
-        );
+    public List<Product> findAll() {
+        return productService.findAll();
     }
 
+    // 2. Tìm sản phẩm theo ID
     @GetMapping("/{id}")
     public Product findById(@PathVariable Long id) {
         return productService.findById(id);
     }
 
+    // 3. Thêm sản phẩm
     @PostMapping
-    public ResponseEntity<Product> create(@RequestBody Product product) {
+    public ResponseEntity<Product> create(
+            @RequestBody Product product) {
+
         Product saved = productService.create(product);
 
         return ResponseEntity
-                .created(URI.create("/api/products/" + saved.getId()))
+                .created(URI.create("/products/" + saved.getId()))
                 .body(saved);
     }
 
+    // 4. Cập nhật sản phẩm
     @PutMapping("/{id}")
     public Product update(
             @PathVariable Long id,
-            @RequestBody Product product
-    ) {
+            @RequestBody Product product) {
+
         return productService.update(id, product);
     }
 
+    // 5. Xóa sản phẩm
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id) {
+
         productService.delete(id);
+
         return ResponseEntity.noContent().build();
+    }
+
+    // 6. Tìm sản phẩm theo Category
+    @GetMapping("/category/{categoryId}")
+    public List<Product> findByCategoryId(
+            @PathVariable Long categoryId) {
+
+        return productService.findByCategoryId(categoryId);
+    }
+
+    // 7. Thống kê sản phẩm theo Category, giá >= 1 triệu
+    @GetMapping("/category-products/price")
+    public List<CategoryProductDTO> findProductByCategoryPrice() {
+
+        return productService.findProductByCategoryPrice();
     }
 }
